@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Admin | Rossi & Rossi</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-page">
+  <div id="telaLogin" class="container login-container">
+    <div class="card login-card">
+      <div class="logo-area centered">
+        <div class="logo-icon">RR</div>
+        <div>
+          <h1>Rossi & Rossi</h1>
+          <p>Painel Administrativo</p>
+        </div>
+      </div>
+      <form id="formLogin">
+        <div class="form-group">
+          <label for="senha">Senha de acesso</label>
+          <input type="password" id="senha" placeholder="Digite a senha" required autofocus>
+        </div>
+        <button type="submit" class="btn-primary">Entrar</button>
+        <div id="erroLogin" class="alert alert-error" style="display:none"></div>
+      </form>
+    </div>
+  </div>
+
+  <div id="telaAdmin" style="display:none">
+    <nav class="admin-nav">
+      <div class="nav-brand">
+        <div class="logo-icon small">RR</div>
+        <span>Painel Admin</span>
+      </div>
+      <div class="nav-actions">
+        <span id="totalEnvios" class="badge"></span>
+        <button class="btn-outline" onclick="carregarDados()">↻ Atualizar</button>
+        <a href="/admin/logout" class="btn-outline danger">Sair</a>
+      </div>
+    </nav>
+
+    <div class="admin-container">
+      <div class="admin-header">
+        <h2>Documentos Recebidos</h2>
+        <div class="filtros">
+          <input type="text" id="busca" placeholder="Buscar por CNPJ, razão social, filial..." oninput="filtrar()">
+        </div>
+      </div>
+
+      <div id="listaEnvios"></div>
+      <div id="semDados" class="empty-state" style="display:none">
+        <p>Nenhum documento enviado ainda.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Login
+    document.getElementById('formLogin').addEventListener('submit', async e => {
+      e.preventDefault();
+      const senha = document.getElementById('senha').value;
+      const erroEl = document.getElementById('erroLogin');
+      erroEl.style.display = 'none';
+
+      const res = await fetch('/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ senha })
+      });
+      const json = await res.json();
+      if (json.ok) {
+        document.getElementById('telaLogin').style.display = 'none';
+        document.getElementById('telaAdmin').style.display = 'block';
+        carregarDados();
+      } else {
+        erroEl.textContent = json.msg || 'Senha incorreta.';
+        erroEl.style.display = 'block';
+      }
+    });
+
+    let todosEnvios = [];
+
+    async function carregarDados() {
+      const res = await fetch('/admin/dados');
+      if (res.status === 403) { window.location.reload(); return; }
+      todosEnvios = await res.json();
+      document.getElementById('totalEnvios').textContent = todosEnvios.length + ' envio(s)';
+      renderEnvios(todosEnvios);
+    }
+
+    function filtrar() {
+      const termo = document.getElementById('busca').value.toLowerCase();
+      const filtrados = todosEnvios.filter(e =>
+        e.cnpj.toLowerCase().includes(termo) ||
+        e.razao_social.toLowerCase().includes(termo) ||
+        e.filial.toLowerCase().includes(termo) ||
+        e.obs.toLowerCase().includes(termo)
+      );
+      renderEnvios(filtrados);
+    }
+
+    function formatData(iso) {
+      const d = new Date(iso);
+      return d.toLocaleDateString('pt-BR') + ' às ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function formatSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+
+    function iconeTipo(nome) {
+      const ext = nome.split('.').pop().toLowerCase();
+      const mapa = { pdf: '📄', doc: '📝', docx: '📝', xls: '📊', xlsx: '📊', png: '🖼️', jpg: '🖼️', jpeg: '🖼️', zip: '🗜️', txt: '📃' };
+      return mapa[ext] || '📎';
+    }
+
+    function renderEnvios(lista) {
+      const container = document.getElementById('listaEnvios');
+      const semDados = document.getElementById('semDados');
+
+      if (lista.length === 0) {
+        container.innerHTML = '';
+        semDados.style.display = 'block';
+        return;
+      }
+      semDados.style.display = 'none';
+
+      container.innerHTML = lista.map(e => `
+        <div class="envio-card" id="card-${e.id}">
+          <div class="envio-header">
+            <div class="envio-info">
+              <strong>${e.razao_social}</strong>
+              <span class="setor-badge">${e.filial}</span>
+            </div>
+            <div class="envio-meta">
+              <span class="data">${formatData(e.data)}</span>
+              <button class="btn-icon danger" title="Excluir envio" onclick="excluir('${e.id}')">🗑️</button>
+            </div>
+          </div>
+          <div class="envio-detalhes">
+            <span class="detalhe"><strong>CNPJ:</strong> ${e.cnpj}</span>
+          </div>
+          ${e.obs ? `<p class="descricao"><strong>Obs:</strong> ${e.obs}</p>` : ''}
+          <ul class="arquivos-lista">
+            ${e.arquivos.map(f => `
+              <li>
+                <span>${iconeTipo(f.original)} ${f.original}</span>
+                <span class="file-size">${formatSize(f.tamanho)}</span>
+                <a href="/admin/download?path=${encodeURIComponent(f.path)}" class="btn-download" target="_blank">⬇ Baixar</a>
+              </li>`).join('')}
+          </ul>
+        </div>`).join('');
+    }
+
+    async function excluir(id) {
+      if (!confirm('Excluir este envio e seus arquivos?')) return;
+      const res = await fetch('/admin/excluir/' + id, { method: 'DELETE' });
+      const json = await res.json();
+      if (json.ok) {
+        todosEnvios = todosEnvios.filter(e => e.id !== id);
+        document.getElementById('totalEnvios').textContent = todosEnvios.length + ' envio(s)';
+        filtrar();
+      }
+    }
+  </script>
+</body>
+</html>

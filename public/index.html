@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Envio de Documentos | Rossi & Rossi</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="user-page">
+  <div class="container">
+    <header>
+      <div class="logo-area">
+        <div class="logo-icon">RR</div>
+        <div>
+          <h1>Rossi & Rossi</h1>
+          <p>Atacado de Insumos Agropecuários</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="card">
+      <h2>Envio de Documentos</h2>
+      <p class="subtitle">Preencha os dados e anexe os arquivos desejados.</p>
+
+      <form id="formEnvio" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cnpj">CNPJ <span class="req">*</span></label>
+            <input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" maxlength="18" required>
+          </div>
+          <div class="form-group">
+            <label for="filial">Filial AgRoss <span class="req">*</span></label>
+            <select id="filial" name="filial" required>
+              <option value="">Selecione a filial...</option>
+              <option value="Paulínia">Paulínia</option>
+              <option value="Pouso Alegre">Pouso Alegre</option>
+              <option value="Anápolis">Anápolis</option>
+              <option value="Sete Lagoas">Sete Lagoas</option>
+              <option value="Lins">Lins</option>
+              <option value="Petrolina">Petrolina</option>
+              <option value="Cariacica">Cariacica</option>
+              <option value="Carazinho">Carazinho</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="razao_social">Razão Social <span class="req">*</span></label>
+          <input type="text" id="razao_social" name="razao_social" placeholder="Razão social da empresa" required>
+        </div>
+
+        <div class="form-group">
+          <label for="obs">Observação</label>
+          <textarea id="obs" name="obs" rows="3" placeholder="Informações adicionais sobre os documentos..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Arquivos <span class="req">*</span></label>
+          <div class="drop-zone" id="dropZone">
+            <input type="file" id="arquivos" name="arquivos" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.txt,.zip">
+            <div class="drop-icon">📁</div>
+            <p>Arraste os arquivos aqui ou <strong>clique para selecionar</strong></p>
+            <small>PDF, Word, Excel, imagens, ZIP — até 20MB por arquivo</small>
+          </div>
+          <ul id="listaArquivos" class="file-list"></ul>
+        </div>
+
+        <button type="submit" class="btn-primary" id="btnEnviar">Enviar Documentos</button>
+      </form>
+
+      <div id="msgSucesso" class="alert alert-success" style="display:none">
+        ✅ Documentos enviados com sucesso! Obrigado.
+      </div>
+      <div id="msgErro" class="alert alert-error" style="display:none"></div>
+    </div>
+  </div>
+
+  <script>
+    const dropZone = document.getElementById('dropZone');
+    const inputArquivos = document.getElementById('arquivos');
+    const listaArquivos = document.getElementById('listaArquivos');
+    let arquivosSelecionados = [];
+
+    dropZone.addEventListener('click', () => inputArquivos.click());
+    inputArquivos.addEventListener('click', e => e.stopPropagation());
+
+    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+    dropZone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropZone.classList.remove('drag-over');
+      adicionarArquivos([...e.dataTransfer.files]);
+    });
+
+    inputArquivos.addEventListener('change', () => adicionarArquivos([...inputArquivos.files]));
+
+    function formatSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+
+    function adicionarArquivos(novos) {
+      novos.forEach(f => {
+        if (!arquivosSelecionados.find(a => a.name === f.name && a.size === f.size)) {
+          arquivosSelecionados.push(f);
+        }
+      });
+      renderLista();
+    }
+
+    function removerArquivo(idx) {
+      arquivosSelecionados.splice(idx, 1);
+      renderLista();
+    }
+
+    function renderLista() {
+      listaArquivos.innerHTML = arquivosSelecionados.map((f, i) => `
+        <li>
+          <span class="file-name">${f.name}</span>
+          <span class="file-size">${formatSize(f.size)}</span>
+          <button type="button" class="btn-remove" onclick="removerArquivo(${i})">✕</button>
+        </li>`).join('');
+    }
+
+    // Máscara CNPJ
+    document.getElementById('cnpj').addEventListener('input', function () {
+      let v = this.value.replace(/\D/g, '').slice(0, 14);
+      v = v.replace(/^(\d{2})(\d)/, '$1.$2');
+      v = v.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+      v = v.replace(/\.(\d{3})(\d)/, '.$1/$2');
+      v = v.replace(/(\d{4})(\d)/, '$1-$2');
+      this.value = v;
+    });
+
+    document.getElementById('formEnvio').addEventListener('submit', async e => {
+      e.preventDefault();
+      const msgErro = document.getElementById('msgErro');
+      const msgSucesso = document.getElementById('msgSucesso');
+      msgErro.style.display = 'none';
+      msgSucesso.style.display = 'none';
+
+      const cnpj = document.getElementById('cnpj').value.trim();
+      const razao_social = document.getElementById('razao_social').value.trim();
+      const filial = document.getElementById('filial').value.trim();
+
+      if (!cnpj) { msgErro.textContent = 'Por favor, informe o CNPJ.'; msgErro.style.display = 'block'; return; }
+      if (!razao_social) { msgErro.textContent = 'Por favor, informe a Razão Social.'; msgErro.style.display = 'block'; return; }
+      if (!filial) { msgErro.textContent = 'Por favor, informe a Filial AgRoss.'; msgErro.style.display = 'block'; return; }
+      if (arquivosSelecionados.length === 0) { msgErro.textContent = 'Selecione ao menos um arquivo.'; msgErro.style.display = 'block'; return; }
+
+      const formData = new FormData();
+      formData.append('cnpj', cnpj);
+      formData.append('razao_social', razao_social);
+      formData.append('filial', filial);
+      formData.append('obs', document.getElementById('obs').value);
+      arquivosSelecionados.forEach(f => formData.append('arquivos', f));
+
+      const btn = document.getElementById('btnEnviar');
+      btn.disabled = true;
+      btn.textContent = 'Enviando...';
+
+      try {
+        const res = await fetch('/upload', { method: 'POST', body: formData });
+        const json = await res.json();
+        if (json.ok) {
+          msgSucesso.style.display = 'block';
+          document.getElementById('formEnvio').reset();
+          arquivosSelecionados = [];
+          renderLista();
+        } else {
+          msgErro.textContent = json.msg || 'Erro ao enviar.';
+          msgErro.style.display = 'block';
+        }
+      } catch {
+        msgErro.textContent = 'Erro de conexão. Tente novamente.';
+        msgErro.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Enviar Documentos';
+      }
+    });
+  </script>
+</body>
+</html>
