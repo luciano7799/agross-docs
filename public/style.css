@@ -565,3 +565,101 @@ input:-webkit-autofill:focus {
 
 /* Empty */
 .empty-state { text-align: center; padding: 64px 20px; color: var(--text-3); font-size: 15px; }
+
+/* ── DASHBOARD CARDS ────────────────────────────────────────────── */
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 580px) { .dashboard-cards { grid-template-columns: 1fr; } }
+
+.dash-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: border-color .15s, box-shadow .15s, transform .1s;
+}
+
+.dash-card.pj,
+.dash-card.pf {
+  cursor: pointer;
+}
+
+.dash-card.pj:hover,
+.dash-card.pf:hover {
+  border-color: var(--border-hi);
+  box-shadow: 0 4px 20px rgba(0,0,0,.25);
+  transform: translateY(-1px);
+}
+
+.dash-card.total { border-left: 3px solid var(--green); }
+.dash-card.pj    { border-left: 3px solid var(--blue); }
+.dash-card.pf    { border-left: 3px solid var(--red); }
+
+.dash-icon {
+  font-size: 26px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.dash-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dash-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+.dash-value {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -.5px;
+  line-height: 1;
+}
+
+/* ── ABAS ────────────────────────────────────────────────────────── */
+.abas {
+  display: flex;
+  gap: 4px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  padding: 3px;
+}
+
+.aba {
+  padding: 7px 16px;
+  border: none;
+  background: transparent;
+  color: var(--text-2);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+
+.aba:hover { color: var(--text); background: var(--surface-3); }
+
+.aba.active {
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(0,0,0,.3);
+}

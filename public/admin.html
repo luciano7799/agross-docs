@@ -47,16 +47,47 @@
     </nav>
 
     <div class="admin-container">
+
+      <!-- Dashboard -->
+      <div class="dashboard-cards">
+        <div class="dash-card total">
+          <div class="dash-icon">📋</div>
+          <div class="dash-info">
+            <span class="dash-label">Total de Envios</span>
+            <span class="dash-value" id="statTotal">0</span>
+          </div>
+        </div>
+        <div class="dash-card pj" onclick="setAba('PJ')">
+          <div class="dash-icon">🏢</div>
+          <div class="dash-info">
+            <span class="dash-label">Pessoa Jurídica</span>
+            <span class="dash-value" id="statPJ">0</span>
+          </div>
+        </div>
+        <div class="dash-card pf" onclick="setAba('PF')">
+          <div class="dash-icon">👤</div>
+          <div class="dash-info">
+            <span class="dash-label">Pessoa Física</span>
+            <span class="dash-value" id="statPF">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtros e abas -->
       <div class="admin-header">
-        <h2>Documentos Recebidos</h2>
+        <div class="abas">
+          <button class="aba active" data-aba="TODOS" onclick="setAba('TODOS')">Todos</button>
+          <button class="aba" data-aba="PJ" onclick="setAba('PJ')">Pessoa Jurídica</button>
+          <button class="aba" data-aba="PF" onclick="setAba('PF')">Pessoa Física</button>
+        </div>
         <div class="filtros">
-          <input type="text" id="busca" placeholder="Buscar por CNPJ, razão social, filial..." oninput="filtrar()">
+          <input type="text" id="busca" placeholder="Buscar por CNPJ, CPF, observação..." oninput="filtrar()">
         </div>
       </div>
 
       <div id="listaEnvios"></div>
       <div id="semDados" class="empty-state" style="display:none">
-        <p>Nenhum documento enviado ainda.</p>
+        <p>Nenhum documento encontrado.</p>
       </div>
     </div>
   </div>
@@ -91,23 +122,47 @@
     });
 
     let todosEnvios = [];
+    let abaAtual = 'TODOS';
 
     async function carregarDados() {
       const res = await fetch('/admin/dados');
       if (res.status === 403) { window.location.reload(); return; }
       todosEnvios = await res.json();
+
+      const totalPJ = todosEnvios.filter(e => (e.tipo || 'PJ') === 'PJ').length;
+      const totalPF = todosEnvios.filter(e => e.tipo === 'PF').length;
+
       document.getElementById('totalEnvios').textContent = todosEnvios.length + ' envio(s)';
-      renderEnvios(todosEnvios);
+      document.getElementById('statTotal').textContent = todosEnvios.length;
+      document.getElementById('statPJ').textContent = totalPJ;
+      document.getElementById('statPF').textContent = totalPF;
+
+      filtrar();
+    }
+
+    function setAba(aba) {
+      abaAtual = aba;
+      document.querySelectorAll('.aba').forEach(b => b.classList.toggle('active', b.dataset.aba === aba));
+      document.getElementById('busca').value = '';
+      filtrar();
     }
 
     function filtrar() {
       const termo = document.getElementById('busca').value.toLowerCase();
-      const filtrados = todosEnvios.filter(e =>
-        e.cnpj.toLowerCase().includes(termo) ||
-        (e.obs || '').toLowerCase().includes(termo) ||
-        (e.tipo || '').toLowerCase().includes(termo)
-      );
-      renderEnvios(filtrados);
+      let lista = todosEnvios;
+
+      if (abaAtual !== 'TODOS') {
+        lista = lista.filter(e => (e.tipo || 'PJ') === abaAtual);
+      }
+
+      if (termo) {
+        lista = lista.filter(e =>
+          e.cnpj.toLowerCase().includes(termo) ||
+          (e.obs || '').toLowerCase().includes(termo)
+        );
+      }
+
+      renderEnvios(lista);
     }
 
     function formatData(iso) {
