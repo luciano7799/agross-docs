@@ -7,25 +7,24 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="admin-page">
-  <div id="telaLogin" class="container login-container">
-    <div class="card login-card">
-      <div class="logo-area centered">
-        <div class="logo-icon">RR</div>
-        <div>
-          <h1>Grupo AgRoss</h1>
-        </div>
+  <div id="telaLogin" class="login-page">
+    <div class="login-box">
+      <div class="login-logo">
+        <div class="logo-icon lg">AR</div>
+        <h1>Grupo AgRoss</h1>
+        <p>Painel Administrativo</p>
       </div>
-      <form id="formLogin">
-        <div class="form-group">
-          <label for="email">E-mail</label>
-          <input type="email" id="email" placeholder="seu@email.com.br" required autofocus autocomplete="username">
+      <form id="formLogin" class="login-form">
+        <div class="input-field">
+          <svg class="input-icon" viewBox="0 0 20 20" fill="none"><path d="M2.5 6.5l7.5 5 7.5-5M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <input type="email" id="email" placeholder="E-mail" required autofocus autocomplete="username">
         </div>
-        <div class="form-group">
-          <label for="senha">Senha</label>
-          <input type="password" id="senha" placeholder="••••••••••" required autocomplete="current-password">
+        <div class="input-field">
+          <svg class="input-icon" viewBox="0 0 20 20" fill="none"><rect x="3" y="9" width="14" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 9V6a3 3 0 016 0v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <input type="password" id="senha" placeholder="Senha" required autocomplete="current-password">
         </div>
-        <button type="submit" class="btn-primary">Entrar</button>
-        <div id="erroLogin" class="alert alert-error" style="display:none"></div>
+        <button type="submit" class="btn-login">Entrar</button>
+        <div id="erroLogin" class="login-erro" style="display:none"></div>
       </form>
     </div>
   </div>
