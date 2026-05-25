@@ -3,15 +3,15 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:        #0a0a0b;
-  --surface:   #111114;
-  --surface-2: #18181c;
-  --surface-3: #222228;
-  --border:    #2a2a32;
-  --border-hi: #3a3a44;
-  --text:      #eeeef0;
-  --text-2:    #8888a0;
-  --text-3:    #55556a;
+  --bg:        #16161e;
+  --surface:   #1e1e28;
+  --surface-2: #26262f;
+  --surface-3: #2e2e3a;
+  --border:    #38384a;
+  --border-hi: #4a4a5e;
+  --text:      #f0f0f4;
+  --text-2:    #9898b0;
+  --text-3:    #66667a;
   --green:     #22c55e;
   --green-dim: rgba(34,197,94,.12);
   --green-dk:  #16a34a;
