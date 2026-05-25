@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const session = require('express-session');
 const path = require('path');
+const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const { createClient } = require('@supabase/supabase-js');
 
