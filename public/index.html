@@ -23,10 +23,22 @@
       <p class="subtitle">Preencha os dados e anexe os arquivos desejados.</p>
 
       <form id="formEnvio" novalidate>
+
+        <!-- Tipo -->
+        <div class="form-group">
+          <label>Tipo de pessoa <span class="req">*</span></label>
+          <div class="tipo-toggle">
+            <button type="button" class="tipo-btn active" data-tipo="PJ">Pessoa Jurídica</button>
+            <button type="button" class="tipo-btn" data-tipo="PF">Pessoa Física</button>
+          </div>
+          <input type="hidden" id="tipo" name="tipo" value="PJ">
+        </div>
+
+        <!-- Documento (CNPJ ou CPF) + Filial -->
         <div class="form-row">
           <div class="form-group">
-            <label for="cnpj">CNPJ <span class="req">*</span></label>
-            <input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" maxlength="18" required>
+            <label for="documento" id="labelDocumento">CNPJ <span class="req">*</span></label>
+            <input type="text" id="documento" name="documento" placeholder="00.000.000/0000-00" maxlength="18" required>
           </div>
           <div class="form-group">
             <label for="filial">Filial AgRoss <span class="req">*</span></label>
@@ -44,16 +56,19 @@
           </div>
         </div>
 
+        <!-- Nome / Razão Social -->
         <div class="form-group">
-          <label for="razao_social">Razão Social <span class="req">*</span></label>
+          <label for="razao_social" id="labelNome">Razão Social <span class="req">*</span></label>
           <input type="text" id="razao_social" name="razao_social" placeholder="Razão social da empresa" required>
         </div>
 
+        <!-- Observação -->
         <div class="form-group">
           <label for="obs">Observação</label>
           <textarea id="obs" name="obs" rows="3" placeholder="Informações adicionais sobre os documentos..."></textarea>
         </div>
 
+        <!-- Upload -->
         <div class="form-group">
           <label>Arquivos <span class="req">*</span></label>
           <div class="drop-zone" id="dropZone">
@@ -76,6 +91,57 @@
   </div>
 
   <script>
+    // ── Tipo toggle ───────────────────────────────────────────────
+    const tipoBtns = document.querySelectorAll('.tipo-btn');
+    const inputTipo = document.getElementById('tipo');
+    const inputDoc  = document.getElementById('documento');
+    const labelDoc  = document.getElementById('labelDocumento');
+    const inputNome = document.getElementById('razao_social');
+    const labelNome = document.getElementById('labelNome');
+
+    tipoBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tipoBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const tipo = btn.dataset.tipo;
+        inputTipo.value = tipo;
+        inputDoc.value = '';
+        if (tipo === 'PF') {
+          labelDoc.innerHTML = 'CPF <span class="req">*</span>';
+          inputDoc.placeholder = '000.000.000-00';
+          inputDoc.maxLength = 14;
+          labelNome.innerHTML = 'Nome completo <span class="req">*</span>';
+          inputNome.placeholder = 'Nome do cliente';
+        } else {
+          labelDoc.innerHTML = 'CNPJ <span class="req">*</span>';
+          inputDoc.placeholder = '00.000.000/0000-00';
+          inputDoc.maxLength = 18;
+          labelNome.innerHTML = 'Razão Social <span class="req">*</span>';
+          inputNome.placeholder = 'Razão social da empresa';
+        }
+      });
+    });
+
+    // ── Máscaras ──────────────────────────────────────────────────
+    inputDoc.addEventListener('input', function () {
+      const tipo = inputTipo.value;
+      let v = this.value.replace(/\D/g, '');
+      if (tipo === 'PF') {
+        v = v.slice(0, 11);
+        v = v.replace(/(\d{3})(\d)/, '$1.$2');
+        v = v.replace(/(\d{3})(\d)/, '$1.$2');
+        v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+      } else {
+        v = v.slice(0, 14);
+        v = v.replace(/^(\d{2})(\d)/, '$1.$2');
+        v = v.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+        v = v.replace(/\.(\d{3})(\d)/, '.$1/$2');
+        v = v.replace(/(\d{4})(\d)/, '$1-$2');
+      }
+      this.value = v;
+    });
+
+    // ── Upload ────────────────────────────────────────────────────
     const dropZone = document.getElementById('dropZone');
     const inputArquivos = document.getElementById('arquivos');
     const listaArquivos = document.getElementById('listaArquivos');
@@ -83,7 +149,6 @@
 
     dropZone.addEventListener('click', () => inputArquivos.click());
     inputArquivos.addEventListener('click', e => e.stopPropagation());
-
     dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
     dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
     dropZone.addEventListener('drop', e => {
@@ -91,7 +156,6 @@
       dropZone.classList.remove('drag-over');
       adicionarArquivos([...e.dataTransfer.files]);
     });
-
     inputArquivos.addEventListener('change', () => adicionarArquivos([...inputArquivos.files]));
 
     function formatSize(bytes) {
@@ -102,9 +166,8 @@
 
     function adicionarArquivos(novos) {
       novos.forEach(f => {
-        if (!arquivosSelecionados.find(a => a.name === f.name && a.size === f.size)) {
+        if (!arquivosSelecionados.find(a => a.name === f.name && a.size === f.size))
           arquivosSelecionados.push(f);
-        }
       });
       renderLista();
     }
@@ -123,35 +186,28 @@
         </li>`).join('');
     }
 
-    // Máscara CNPJ
-    document.getElementById('cnpj').addEventListener('input', function () {
-      let v = this.value.replace(/\D/g, '').slice(0, 14);
-      v = v.replace(/^(\d{2})(\d)/, '$1.$2');
-      v = v.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
-      v = v.replace(/\.(\d{3})(\d)/, '.$1/$2');
-      v = v.replace(/(\d{4})(\d)/, '$1-$2');
-      this.value = v;
-    });
-
+    // ── Envio ─────────────────────────────────────────────────────
     document.getElementById('formEnvio').addEventListener('submit', async e => {
       e.preventDefault();
-      const msgErro = document.getElementById('msgErro');
+      const msgErro    = document.getElementById('msgErro');
       const msgSucesso = document.getElementById('msgSucesso');
       msgErro.style.display = 'none';
       msgSucesso.style.display = 'none';
 
-      const cnpj = document.getElementById('cnpj').value.trim();
-      const razao_social = document.getElementById('razao_social').value.trim();
-      const filial = document.getElementById('filial').value.trim();
+      const tipo       = inputTipo.value;
+      const documento  = inputDoc.value.trim();
+      const nome       = inputNome.value.trim();
+      const filial     = document.getElementById('filial').value;
 
-      if (!cnpj) { msgErro.textContent = 'Por favor, informe o CNPJ.'; msgErro.style.display = 'block'; return; }
-      if (!razao_social) { msgErro.textContent = 'Por favor, informe a Razão Social.'; msgErro.style.display = 'block'; return; }
-      if (!filial) { msgErro.textContent = 'Por favor, informe a Filial AgRoss.'; msgErro.style.display = 'block'; return; }
+      if (!documento) { msgErro.textContent = `Informe o ${tipo === 'PF' ? 'CPF' : 'CNPJ'}.`; msgErro.style.display = 'block'; return; }
+      if (!nome)      { msgErro.textContent = `Informe o ${tipo === 'PF' ? 'nome completo' : 'razão social'}.`; msgErro.style.display = 'block'; return; }
+      if (!filial)    { msgErro.textContent = 'Selecione a Filial AgRoss.'; msgErro.style.display = 'block'; return; }
       if (arquivosSelecionados.length === 0) { msgErro.textContent = 'Selecione ao menos um arquivo.'; msgErro.style.display = 'block'; return; }
 
       const formData = new FormData();
-      formData.append('cnpj', cnpj);
-      formData.append('razao_social', razao_social);
+      formData.append('tipo', tipo);
+      formData.append('cnpj', documento);
+      formData.append('razao_social', nome);
       formData.append('filial', filial);
       formData.append('obs', document.getElementById('obs').value);
       arquivosSelecionados.forEach(f => formData.append('arquivos', f));
@@ -161,11 +217,17 @@
       btn.textContent = 'Enviando...';
 
       try {
-        const res = await fetch('/upload', { method: 'POST', body: formData });
+        const res  = await fetch('/upload', { method: 'POST', body: formData });
         const json = await res.json();
         if (json.ok) {
           msgSucesso.style.display = 'block';
           document.getElementById('formEnvio').reset();
+          tipoBtns.forEach((b, i) => b.classList.toggle('active', i === 0));
+          inputTipo.value = 'PJ';
+          labelDoc.innerHTML = 'CNPJ <span class="req">*</span>';
+          inputDoc.placeholder = '00.000.000/0000-00';
+          inputDoc.maxLength = 18;
+          labelNome.innerHTML = 'Razão Social <span class="req">*</span>';
           arquivosSelecionados = [];
           renderLista();
         } else {

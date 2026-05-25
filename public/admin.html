@@ -134,6 +134,7 @@
             <div class="envio-info">
               <strong>${e.razao_social}</strong>
               <span class="setor-badge">${e.filial}</span>
+              <span class="tipo-pill ${e.tipo === 'PF' ? 'pf' : 'pj'}">${e.tipo === 'PF' ? 'Pessoa Física' : 'Pessoa Jurídica'}</span>
             </div>
             <div class="envio-meta">
               <span class="data">${formatData(e.data)}</span>
@@ -141,7 +142,7 @@
             </div>
           </div>
           <div class="envio-detalhes">
-            <span class="detalhe"><strong>CNPJ:</strong> ${e.cnpj}</span>
+            <span class="detalhe"><strong>${e.tipo === 'PF' ? 'CPF' : 'CNPJ'}:</strong> ${e.cnpj}</span>
           </div>
           ${e.obs ? `<p class="descricao"><strong>Obs:</strong> ${e.obs}</p>` : ''}
           <ul class="arquivos-lista">

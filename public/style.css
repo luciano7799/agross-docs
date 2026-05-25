@@ -116,6 +116,34 @@ input:focus, textarea:focus {
 
 textarea { resize: vertical; }
 
+/* Toggle Tipo PF/PJ */
+.tipo-toggle {
+  display: flex;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  width: fit-content;
+}
+
+.tipo-btn {
+  padding: 9px 24px;
+  border: none;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #4a5568;
+  transition: all .2s;
+}
+
+.tipo-btn:first-child { border-right: 1.5px solid #e2e8f0; }
+
+.tipo-btn.active {
+  background: #1a6b3c;
+  color: #fff;
+  font-weight: 600;
+}
+
 /* Linha com dois campos lado a lado */
 .form-row {
   display: flex;
@@ -375,6 +403,15 @@ textarea { resize: vertical; }
 }
 
 .envio-info strong { font-size: 16px; }
+
+.tipo-pill {
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.tipo-pill.pj { background: #ebf8ff; color: #2b6cb0; border: 1px solid #bee3f8; }
+.tipo-pill.pf { background: #fff5f5; color: #c53030; border: 1px solid #fed7d7; }
 
 .setor-badge {
   background: #e6fffa;
