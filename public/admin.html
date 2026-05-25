@@ -37,7 +37,10 @@
       </div>
       <div class="nav-actions">
         <span id="totalEnvios" class="badge"></span>
-        <span id="nomeUsuario" class="nav-user"></span>
+        <div class="nav-user-info">
+          <span id="nomeUsuario" class="nav-user-name"></span>
+          <span id="loginHora" class="nav-user-hora"></span>
+        </div>
         <button class="btn-outline" onclick="carregarDados()">↻ Atualizar</button>
         <a href="/admin/logout" class="btn-outline danger">Sair</a>
       </div>
@@ -77,6 +80,9 @@
         document.getElementById('telaLogin').style.display = 'none';
         document.getElementById('telaAdmin').style.display = 'block';
         document.getElementById('nomeUsuario').textContent = json.name;
+        const agora = new Date();
+        const hora = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        document.getElementById('loginHora').textContent = 'logado às ' + hora;
         carregarDados();
       } else {
         erroEl.textContent = json.msg || 'E-mail ou senha incorretos.';
