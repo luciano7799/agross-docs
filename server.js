@@ -8,8 +8,13 @@ const { createClient } = require('@supabase/supabase-js');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
 const BUCKET = 'documents';
+
+// ── TABELA DE USUÁRIOS ADMIN ──────────────────────────────────────
+// Para adicionar usuários, inclua um novo objeto nesta lista.
+const ADMIN_USERS = [
+  { email: 'credito@agross.com.br', password: 'credito@agross', name: 'Crédito' },
+];
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
@@ -84,11 +89,14 @@ app.post('/upload', upload.array('arquivos', 10), async (req, res) => {
 app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'public', 'admin.html')));
 
 app.post('/admin/login', (req, res) => {
-  if (req.body.senha === ADMIN_PASSWORD) {
+  const { email, senha } = req.body;
+  const user = ADMIN_USERS.find(u => u.email === email && u.password === senha);
+  if (user) {
     req.session.isAdmin = true;
-    res.json({ ok: true });
+    req.session.userName = user.name;
+    res.json({ ok: true, name: user.name });
   } else {
-    res.status(401).json({ ok: false, msg: 'Senha incorreta.' });
+    res.status(401).json({ ok: false, msg: 'E-mail ou senha incorretos.' });
   }
 });
 

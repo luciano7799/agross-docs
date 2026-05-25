@@ -17,8 +17,12 @@
       </div>
       <form id="formLogin">
         <div class="form-group">
-          <label for="senha">Senha de acesso</label>
-          <input type="password" id="senha" placeholder="Digite a senha" required autofocus>
+          <label for="email">E-mail</label>
+          <input type="email" id="email" placeholder="seu@email.com.br" required autofocus autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" placeholder="••••••••••" required autocomplete="current-password">
         </div>
         <button type="submit" class="btn-primary">Entrar</button>
         <div id="erroLogin" class="alert alert-error" style="display:none"></div>
@@ -34,6 +38,7 @@
       </div>
       <div class="nav-actions">
         <span id="totalEnvios" class="badge"></span>
+        <span id="nomeUsuario" class="nav-user"></span>
         <button class="btn-outline" onclick="carregarDados()">↻ Atualizar</button>
         <a href="/admin/logout" class="btn-outline danger">Sair</a>
       </div>
@@ -58,22 +63,24 @@
     // Login
     document.getElementById('formLogin').addEventListener('submit', async e => {
       e.preventDefault();
-      const senha = document.getElementById('senha').value;
+      const email  = document.getElementById('email').value;
+      const senha  = document.getElementById('senha').value;
       const erroEl = document.getElementById('erroLogin');
       erroEl.style.display = 'none';
 
       const res = await fetch('/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ senha })
+        body: JSON.stringify({ email, senha })
       });
       const json = await res.json();
       if (json.ok) {
         document.getElementById('telaLogin').style.display = 'none';
         document.getElementById('telaAdmin').style.display = 'block';
+        document.getElementById('nomeUsuario').textContent = json.name;
         carregarDados();
       } else {
-        erroEl.textContent = json.msg || 'Senha incorreta.';
+        erroEl.textContent = json.msg || 'E-mail ou senha incorretos.';
         erroEl.style.display = 'block';
       }
     });
