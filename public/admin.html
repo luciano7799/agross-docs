@@ -93,9 +93,8 @@
       const termo = document.getElementById('busca').value.toLowerCase();
       const filtrados = todosEnvios.filter(e =>
         e.cnpj.toLowerCase().includes(termo) ||
-        e.razao_social.toLowerCase().includes(termo) ||
-        e.filial.toLowerCase().includes(termo) ||
-        e.obs.toLowerCase().includes(termo)
+        (e.obs || '').toLowerCase().includes(termo) ||
+        (e.tipo || '').toLowerCase().includes(termo)
       );
       renderEnvios(filtrados);
     }
@@ -132,8 +131,6 @@
         <div class="envio-card" id="card-${e.id}">
           <div class="envio-header">
             <div class="envio-info">
-              <strong>${e.razao_social}</strong>
-              <span class="setor-badge">${e.filial}</span>
               <span class="tipo-pill ${e.tipo === 'PF' ? 'pf' : 'pj'}">${e.tipo === 'PF' ? 'Pessoa Física' : 'Pessoa Jurídica'}</span>
             </div>
             <div class="envio-meta">

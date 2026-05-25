@@ -49,9 +49,9 @@ function isAdmin(req) { return req.session && req.session.isAdmin; }
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 
 app.post('/upload', upload.array('arquivos', 10), async (req, res) => {
-  const { tipo, cnpj, razao_social, filial, obs } = req.body;
-  if (!cnpj || !razao_social || !filial || !req.files || req.files.length === 0) {
-    return res.status(400).json({ ok: false, msg: 'Preencha todos os campos obrigatórios e envie ao menos um arquivo.' });
+  const { tipo, cnpj, obs } = req.body;
+  if (!cnpj || !req.files || req.files.length === 0) {
+    return res.status(400).json({ ok: false, msg: 'Informe o CPF/CNPJ e envie ao menos um arquivo.' });
   }
 
   const submissionId = uuidv4();
@@ -71,8 +71,6 @@ app.post('/upload', upload.array('arquivos', 10), async (req, res) => {
     id: submissionId,
     tipo: tipo || 'PJ',
     cnpj,
-    razao_social,
-    filial,
     obs: obs || '',
     data: new Date().toISOString(),
     arquivos

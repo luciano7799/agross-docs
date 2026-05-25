@@ -34,32 +34,10 @@
           <input type="hidden" id="tipo" name="tipo" value="PJ">
         </div>
 
-        <!-- Documento (CNPJ ou CPF) + Filial -->
-        <div class="form-row">
-          <div class="form-group">
-            <label for="documento" id="labelDocumento">CNPJ <span class="req">*</span></label>
-            <input type="text" id="documento" name="documento" placeholder="00.000.000/0000-00" maxlength="18" required>
-          </div>
-          <div class="form-group">
-            <label for="filial">Filial AgRoss <span class="req">*</span></label>
-            <select id="filial" name="filial" required>
-              <option value="">Selecione a filial...</option>
-              <option value="Paulínia">Paulínia</option>
-              <option value="Pouso Alegre">Pouso Alegre</option>
-              <option value="Anápolis">Anápolis</option>
-              <option value="Sete Lagoas">Sete Lagoas</option>
-              <option value="Lins">Lins</option>
-              <option value="Petrolina">Petrolina</option>
-              <option value="Cariacica">Cariacica</option>
-              <option value="Carazinho">Carazinho</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Nome / Razão Social -->
+        <!-- Documento (CNPJ ou CPF) -->
         <div class="form-group">
-          <label for="razao_social" id="labelNome">Razão Social <span class="req">*</span></label>
-          <input type="text" id="razao_social" name="razao_social" placeholder="Razão social da empresa" required>
+          <label for="documento" id="labelDocumento">CNPJ <span class="req">*</span></label>
+          <input type="text" id="documento" name="documento" placeholder="00.000.000/0000-00" maxlength="18" required>
         </div>
 
         <!-- Observação -->
@@ -96,8 +74,6 @@
     const inputTipo = document.getElementById('tipo');
     const inputDoc  = document.getElementById('documento');
     const labelDoc  = document.getElementById('labelDocumento');
-    const inputNome = document.getElementById('razao_social');
-    const labelNome = document.getElementById('labelNome');
 
     tipoBtns.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -110,14 +86,10 @@
           labelDoc.innerHTML = 'CPF <span class="req">*</span>';
           inputDoc.placeholder = '000.000.000-00';
           inputDoc.maxLength = 14;
-          labelNome.innerHTML = 'Nome completo <span class="req">*</span>';
-          inputNome.placeholder = 'Nome do cliente';
         } else {
           labelDoc.innerHTML = 'CNPJ <span class="req">*</span>';
           inputDoc.placeholder = '00.000.000/0000-00';
           inputDoc.maxLength = 18;
-          labelNome.innerHTML = 'Razão Social <span class="req">*</span>';
-          inputNome.placeholder = 'Razão social da empresa';
         }
       });
     });
@@ -194,21 +166,15 @@
       msgErro.style.display = 'none';
       msgSucesso.style.display = 'none';
 
-      const tipo       = inputTipo.value;
-      const documento  = inputDoc.value.trim();
-      const nome       = inputNome.value.trim();
-      const filial     = document.getElementById('filial').value;
+      const tipo      = inputTipo.value;
+      const documento = inputDoc.value.trim();
 
       if (!documento) { msgErro.textContent = `Informe o ${tipo === 'PF' ? 'CPF' : 'CNPJ'}.`; msgErro.style.display = 'block'; return; }
-      if (!nome)      { msgErro.textContent = `Informe o ${tipo === 'PF' ? 'nome completo' : 'razão social'}.`; msgErro.style.display = 'block'; return; }
-      if (!filial)    { msgErro.textContent = 'Selecione a Filial AgRoss.'; msgErro.style.display = 'block'; return; }
       if (arquivosSelecionados.length === 0) { msgErro.textContent = 'Selecione ao menos um arquivo.'; msgErro.style.display = 'block'; return; }
 
       const formData = new FormData();
       formData.append('tipo', tipo);
       formData.append('cnpj', documento);
-      formData.append('razao_social', nome);
-      formData.append('filial', filial);
       formData.append('obs', document.getElementById('obs').value);
       arquivosSelecionados.forEach(f => formData.append('arquivos', f));
 
@@ -227,7 +193,6 @@
           labelDoc.innerHTML = 'CNPJ <span class="req">*</span>';
           inputDoc.placeholder = '00.000.000/0000-00';
           inputDoc.maxLength = 18;
-          labelNome.innerHTML = 'Razão Social <span class="req">*</span>';
           arquivosSelecionados = [];
           renderLista();
         } else {
