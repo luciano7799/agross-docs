@@ -238,7 +238,7 @@
             <div class="form-group">
               <div class="docs-info">
                 <div class="docs-info-title">📋 Certidões e declarações necessárias:</div>
-                <ul class="docs-list">
+                <ul class="docs-list" id="certidoesList">
                   <li>Certidão da Receita Federal</li>
                   <li>Certidão da PGFN</li>
                   <li>Certidão negativa de dívida ativa municipal</li>
@@ -362,6 +362,41 @@
     document.getElementById('cbGarantiasOutra').addEventListener('change', function () {
       document.getElementById('garantiasOutraWrap').style.display = this.checked ? 'block' : 'none';
       if (!this.checked) document.getElementById('garantiasOutra').value = '';
+    });
+
+    // ── Certidões: filtra por tipo de imóvel ──────────────────────
+    const CERTIDOES_PROPRIO = [
+      'Matrícula do imóvel atualizada (menos de 90 dias)',
+      'CCIR',
+      'ITR (últimos 05 anos)',
+      'CAR',
+      'Georeferenciamento',
+      'Certidão de ônus reais',
+      'Mapa da fazenda',
+      'Receituário agronômio',
+      'Planejamento agrícola'
+    ];
+    const CERTIDOES_TODOS = [
+      'Certidão da Receita Federal',
+      'Certidão da PGFN',
+      'Certidão negativa de dívida ativa municipal',
+      'Certidão negativa de dívida ativa estadual',
+      'Certidão negativa de dívida ativa federal',
+      'Certidão de distribuição de ações trabalhistas',
+      'Certidão de protestos',
+      'Certidão estadual de distribuição de processos cíveis, recuperações judiciais e execuções judiciais',
+      'Certidão federal de distribuição de processos cíveis e execuções fiscais',
+      'Declaração BACEN/Serasa',
+      'Declaração de inexistência de embargos ambientais (IBAMA)',
+      'Declaração de Reconhecimento de Limites (DRL) — áreas indígenas',
+      'Certificado de licenciamento ambiental'
+    ];
+    function atualizarCertidoes(imovel) {
+      const lista = imovel === 'Próprio' ? CERTIDOES_PROPRIO : CERTIDOES_TODOS;
+      document.getElementById('certidoesList').innerHTML = lista.map(c => `<li>${c}</li>`).join('');
+    }
+    document.querySelectorAll('input[name="imovel"]').forEach(radio => {
+      radio.addEventListener('change', () => atualizarCertidoes(radio.value));
     });
 
     // ── Máscara moeda ─────────────────────────────────────────────
