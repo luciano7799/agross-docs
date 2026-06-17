@@ -64,6 +64,27 @@
           </div>
         </div>
 
+        <!-- Culturas exploradas -->
+        <div class="form-group">
+          <label>Informe as culturas exploradas nos últimos 03 anos <span class="req">*</span></label>
+          <div class="check-group" id="culturasGroup">
+            <label class="check-option"><input type="checkbox" name="culturas" value="Soja"><span class="check-label">Soja</span></label>
+            <label class="check-option"><input type="checkbox" name="culturas" value="Cana de açúcar"><span class="check-label">Cana de açúcar</span></label>
+            <label class="check-option"><input type="checkbox" name="culturas" value="Milho"><span class="check-label">Milho</span></label>
+            <label class="check-option"><input type="checkbox" name="culturas" value="Café"><span class="check-label">Café</span></label>
+            <label class="check-option"><input type="checkbox" name="culturas" value="Arroz"><span class="check-label">Arroz</span></label>
+            <label class="check-option"><input type="checkbox" name="culturas" value="Feijão"><span class="check-label">Feijão</span></label>
+            <label class="check-option"><input type="checkbox" name="culturas" value="Trigo"><span class="check-label">Trigo</span></label>
+            <label class="check-option"><input type="checkbox" name="culturas" value="Algodão"><span class="check-label">Algodão</span></label>
+            <label class="check-option"><input type="checkbox" name="culturas" value="Tomate"><span class="check-label">Tomate</span></label>
+            <label class="check-option"><input type="checkbox" name="culturas" value="Batata"><span class="check-label">Batata</span></label>
+            <label class="check-option" id="checkOutros"><input type="checkbox" name="culturas" value="Outros" id="cbOutros"><span class="check-label">Outros</span></label>
+          </div>
+          <div id="outrosWrap" style="display:none; margin-top:10px;">
+            <input type="text" id="culturasOutros" name="culturasOutros" placeholder="Descreva as outras culturas..." maxlength="200">
+          </div>
+        </div>
+
         <!-- Documentos necessários -->
         <div class="form-group">
           <div class="docs-info" id="docsInfo">
@@ -152,6 +173,12 @@
           inputDoc.maxLength = 18;
         }
       });
+    });
+
+    // ── Culturas: toggle Outros ───────────────────────────────────
+    document.getElementById('cbOutros').addEventListener('change', function () {
+      document.getElementById('outrosWrap').style.display = this.checked ? 'block' : 'none';
+      if (!this.checked) document.getElementById('culturasOutros').value = '';
     });
 
     // ── Máscara moeda ─────────────────────────────────────────────
@@ -247,10 +274,19 @@
       const imovelEl = document.querySelector('input[name="imovel"]:checked');
       if (!imovelEl) { msgErro.textContent = 'Selecione o tipo de imóvel.'; msgErro.style.display = 'block'; return; }
 
+      const culturasSel = [...document.querySelectorAll('input[name="culturas"]:checked')].map(c => c.value);
+      if (culturasSel.length === 0) { msgErro.textContent = 'Selecione ao menos uma cultura explorada.'; msgErro.style.display = 'block'; return; }
+      if (culturasSel.includes('Outros')) {
+        const outrosVal = document.getElementById('culturasOutros').value.trim();
+        if (!outrosVal) { msgErro.textContent = 'Descreva as outras culturas exploradas.'; msgErro.style.display = 'block'; return; }
+        culturasSel[culturasSel.indexOf('Outros')] = 'Outros: ' + outrosVal;
+      }
+
       formData.append('tipo', tipo);
       formData.append('cnpj', documento);
       formData.append('limiteCredito', limiteCredito);
       formData.append('imovel', imovelEl.value);
+      formData.append('culturas', culturasSel.join(', '));
 
       arquivosSelecionados.forEach(f => formData.append('arquivos', f));
 
