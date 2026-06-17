@@ -53,6 +53,22 @@
           <input type="text" id="limiteCredito" name="limiteCredito" placeholder="R$ 0,00" required>
         </div>
 
+        <!-- Imóvel -->
+        <div class="form-group">
+          <label>Imóvel <span class="req">*</span></label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="imovel" value="Próprio" required> Próprio
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="imovel" value="Arrendado"> Arrendado
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="imovel" value="Parceria rural"> Parceria rural
+            </label>
+          </div>
+        </div>
+
         <!-- Observação -->
         <div class="form-group">
           <label for="obs">Observação</label>
@@ -231,9 +247,13 @@
       const limiteCredito = document.getElementById('limiteCredito').value.trim();
       if (!limiteCredito) { msgErro.textContent = 'Informe os limites de créditos bancários ativos.'; msgErro.style.display = 'block'; return; }
 
+      const imovelEl = document.querySelector('input[name="imovel"]:checked');
+      if (!imovelEl) { msgErro.textContent = 'Selecione o tipo de imóvel.'; msgErro.style.display = 'block'; return; }
+
       formData.append('tipo', tipo);
       formData.append('cnpj', documento);
       formData.append('limiteCredito', limiteCredito);
+      formData.append('imovel', imovelEl.value);
       formData.append('obs', document.getElementById('obs').value);
       arquivosSelecionados.forEach(f => formData.append('arquivos', f));
 

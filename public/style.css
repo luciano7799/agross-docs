@@ -664,6 +664,40 @@ input:-webkit-autofill:focus {
   box-shadow: 0 1px 4px rgba(0,0,0,.3);
 }
 
+/* ── RADIO GROUP ────────────────────────────────────────────────── */
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-1);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 16px;
+  transition: border-color .15s, background .15s;
+}
+
+.radio-option:has(input:checked) {
+  border-color: var(--blue);
+  background: var(--blue-dim);
+}
+
+.radio-option input[type="radio"] {
+  accent-color: var(--blue);
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
 /* ── DOCUMENTOS NECESSÁRIOS ─────────────────────────────────────── */
 .docs-info {
   background: var(--blue-dim);
