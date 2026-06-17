@@ -56,6 +56,24 @@
             <input type="text" id="cooperativas" name="cooperativas" placeholder="Ex: Coamo, Cotrijal...">
           </div>
 
+          <div class="form-group">
+            <label>Quais opções de garantia negociou fornecer? <span class="req">*</span></label>
+            <div class="check-group" id="garantiasGroup">
+              <label class="check-option"><input type="checkbox" name="garantias" value="CPR física"><span class="check-label">CPR física</span></label>
+              <label class="check-option"><input type="checkbox" name="garantias" value="CPR financeira"><span class="check-label">CPR financeira</span></label>
+              <label class="check-option"><input type="checkbox" name="garantias" value="Avalista"><span class="check-label">Avalista</span></label>
+              <label class="check-option"><input type="checkbox" name="garantias" value="Alienação fiduciária"><span class="check-label">Alienação fiduciária</span></label>
+              <label class="check-option"><input type="checkbox" name="garantias" value="Hipoteca"><span class="check-label">Hipoteca</span></label>
+              <label class="check-option"><input type="checkbox" name="garantias" value="Cessão fiduciária"><span class="check-label">Cessão fiduciária</span></label>
+              <label class="check-option"><input type="checkbox" name="garantias" value="Seguro rural"><span class="check-label">Seguro rural</span></label>
+              <label class="check-option"><input type="checkbox" name="garantias" value="Nenhuma"><span class="check-label">Nenhuma</span></label>
+              <label class="check-option" id="checkGarantiasOutra"><input type="checkbox" name="garantias" value="Outra" id="cbGarantiasOutra"><span class="check-label">Outra</span></label>
+            </div>
+            <div id="garantiasOutraWrap" style="display:none; margin-top:10px;">
+              <input type="text" id="garantiasOutra" name="garantiasOutra" placeholder="Descreva a outra garantia..." maxlength="200">
+            </div>
+          </div>
+
           <!-- ── Propriedade & Produção ────────────────────────────── -->
           <div class="section-title">Propriedade &amp; Produção</div>
 
@@ -213,6 +231,12 @@
       if (!this.checked) document.getElementById('culturasOutros').value = '';
     });
 
+    // ── Garantias: toggle Outra ───────────────────────────────────
+    document.getElementById('cbGarantiasOutra').addEventListener('change', function () {
+      document.getElementById('garantiasOutraWrap').style.display = this.checked ? 'block' : 'none';
+      if (!this.checked) document.getElementById('garantiasOutra').value = '';
+    });
+
     // ── Máscara moeda ─────────────────────────────────────────────
     document.getElementById('limiteCredito').addEventListener('input', function () {
       let v = this.value.replace(/\D/g, '');
@@ -328,6 +352,16 @@
         msgErro.textContent = 'Descreva as outras culturas exploradas.';
         msgErro.style.display = 'block'; return;
       }
+      const garantiasSel = [...document.querySelectorAll('input[name="garantias"]:checked')].map(c => c.value);
+      if (garantiasSel.length === 0) {
+        msgErro.textContent = 'Selecione ao menos uma opção de garantia.';
+        msgErro.style.display = 'block'; return;
+      }
+      if (garantiasSel.includes('Outra') && !document.getElementById('garantiasOutra').value.trim()) {
+        msgErro.textContent = 'Descreva a outra garantia negociada.';
+        msgErro.style.display = 'block'; return;
+      }
+
       if (arquivosSelecionados.length === 0) {
         msgErro.textContent = 'Selecione ao menos um arquivo.';
         msgErro.style.display = 'block'; return;
@@ -346,6 +380,11 @@
       formData.append('areaPlantada', document.getElementById('areaPlantada').value.trim());
       formData.append('estimativaSafra', document.getElementById('estimativaSafra').value.trim());
       formData.append('culturas', culturasSel.join(', '));
+      if (garantiasSel.includes('Outra')) {
+        garantiasSel[garantiasSel.indexOf('Outra')] = 'Outra: ' + document.getElementById('garantiasOutra').value.trim();
+      }
+      formData.append('garantias', garantiasSel.join(', '));
+      formData.append('cooperativas', document.getElementById('cooperativas').value.trim());
       arquivosSelecionados.forEach(f => formData.append('arquivos', f));
 
       const btn = document.getElementById('btnEnviar');
