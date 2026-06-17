@@ -9,233 +9,299 @@
 <body class="user-page">
 
   <header>
-    <div class="container">
+    <div class="header-inner">
       <div class="logo-area">
-        <div class="logo-icon">RR</div>
+        <div class="logo-icon">AG</div>
         <div>
           <h1>Grupo AgRoss</h1>
-          <p>Preencha e clique em Enviar</p>
+          <p>Cadastro de Produtor Rural</p>
         </div>
       </div>
     </div>
   </header>
 
-  <div class="content-wrap">
-    <div class="container">
-      <div class="card">
-        <h2>Envio de Documentos</h2>
-        <p class="subtitle">Preencha os dados e anexe os arquivos necessários.</p>
+  <div class="page-body">
+
+    <!-- ── Sidebar nav ─────────────────────────────────────────── -->
+    <aside class="form-nav" id="formNav">
+      <div class="nav-inner">
+        <p class="nav-label">Seções</p>
+        <a class="nav-item active" href="#s1">
+          <span class="nav-num">01</span>
+          <span>Identificação</span>
+        </a>
+        <a class="nav-item" href="#s2">
+          <span class="nav-num">02</span>
+          <span>Propriedade &amp; Produção</span>
+        </a>
+        <a class="nav-item" href="#s3">
+          <span class="nav-num">03</span>
+          <span>Compliance</span>
+        </a>
+        <a class="nav-item" href="#s4">
+          <span class="nav-num">04</span>
+          <span>Socioambiental</span>
+        </a>
+        <a class="nav-item" href="#s5">
+          <span class="nav-num">05</span>
+          <span>Documentos &amp; Envio</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ── Form main ───────────────────────────────────────────── -->
+    <main class="form-main">
+      <div class="form-card">
+
+        <div class="card-header">
+          <h2>Envio de Documentos</h2>
+          <p class="subtitle">Preencha todos os campos e anexe os arquivos necessários para análise de crédito.</p>
+        </div>
 
         <form id="formEnvio" novalidate>
 
-          <!-- ── Identificação ─────────────────────────────────────── -->
-          <div class="section-title">Identificação</div>
-
-          <div class="form-group">
-            <label>Tipo de pessoa <span class="req">*</span></label>
-            <div class="tipo-toggle">
-              <button type="button" class="tipo-btn active" data-tipo="PJ">Pessoa Jurídica</button>
-              <button type="button" class="tipo-btn" data-tipo="PF">Pessoa Física</button>
+          <!-- ── 01 Identificação ─────────────────────────────── -->
+          <section class="form-section" id="s1">
+            <div class="section-title">
+              <span class="section-num">01</span>
+              Identificação
             </div>
-            <input type="hidden" id="tipo" name="tipo" value="PJ">
-          </div>
 
-          <div class="form-row">
             <div class="form-group">
-              <label for="documento" id="labelDocumento">CNPJ <span class="req">*</span></label>
-              <input type="text" id="documento" name="documento" placeholder="00.000.000/0000-00" maxlength="18" required>
+              <label>Tipo de pessoa <span class="req">*</span></label>
+              <div class="tipo-toggle">
+                <button type="button" class="tipo-btn active" data-tipo="PJ">Pessoa Jurídica</button>
+                <button type="button" class="tipo-btn" data-tipo="PF">Pessoa Física</button>
+              </div>
+              <input type="hidden" id="tipo" name="tipo" value="PJ">
             </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="documento" id="labelDocumento">CNPJ <span class="req">*</span></label>
+                <input type="text" id="documento" name="documento" placeholder="00.000.000/0000-00" maxlength="18" required>
+              </div>
+              <div class="form-group">
+                <label for="limiteCredito">Limites de crédito bancário <span class="req">*</span></label>
+                <input type="text" id="limiteCredito" name="limiteCredito" placeholder="R$ 0,00" required>
+              </div>
+            </div>
+
             <div class="form-group">
-              <label for="limiteCredito">Limites de crédito bancário <span class="req">*</span></label>
-              <input type="text" id="limiteCredito" name="limiteCredito" placeholder="R$ 0,00" required>
+              <label for="cooperativas">Cooperativas vinculadas</label>
+              <input type="text" id="cooperativas" name="cooperativas" placeholder="Ex: Coamo, Cotrijal...">
             </div>
-          </div>
 
-          <div class="form-group">
-            <label for="cooperativas">Cooperativas vinculadas</label>
-            <input type="text" id="cooperativas" name="cooperativas" placeholder="Ex: Coamo, Cotrijal...">
-          </div>
-
-          <div class="form-group">
-            <label>Quais opções de garantia negociou fornecer? <span class="req">*</span></label>
-            <div class="check-group" id="garantiasGroup">
-              <label class="check-option"><input type="checkbox" name="garantias" value="CPR física"><span class="check-label">CPR física</span></label>
-              <label class="check-option"><input type="checkbox" name="garantias" value="CPR financeira"><span class="check-label">CPR financeira</span></label>
-              <label class="check-option"><input type="checkbox" name="garantias" value="Avalista"><span class="check-label">Avalista</span></label>
-              <label class="check-option"><input type="checkbox" name="garantias" value="Alienação fiduciária"><span class="check-label">Alienação fiduciária</span></label>
-              <label class="check-option"><input type="checkbox" name="garantias" value="Hipoteca"><span class="check-label">Hipoteca</span></label>
-              <label class="check-option"><input type="checkbox" name="garantias" value="Cessão fiduciária"><span class="check-label">Cessão fiduciária</span></label>
-              <label class="check-option"><input type="checkbox" name="garantias" value="Seguro rural"><span class="check-label">Seguro rural</span></label>
-              <label class="check-option"><input type="checkbox" name="garantias" value="Nenhuma"><span class="check-label">Nenhuma</span></label>
-              <label class="check-option" id="checkGarantiasOutra"><input type="checkbox" name="garantias" value="Outra" id="cbGarantiasOutra"><span class="check-label">Outra</span></label>
-            </div>
-            <div id="garantiasOutraWrap" style="display:none; margin-top:10px;">
-              <input type="text" id="garantiasOutra" name="garantiasOutra" placeholder="Descreva a outra garantia..." maxlength="200">
-            </div>
-          </div>
-
-          <!-- ── Propriedade & Produção ────────────────────────────── -->
-          <div class="section-title">Propriedade &amp; Produção</div>
-
-          <div class="form-group">
-            <label>Imóvel <span class="req">*</span></label>
-            <div class="radio-group">
-              <label class="radio-option">
-                <input type="radio" name="imovel" value="Próprio" required>
-                <span class="radio-label">Próprio</span>
-              </label>
-              <label class="radio-option">
-                <input type="radio" name="imovel" value="Arrendado">
-                <span class="radio-label">Arrendado</span>
-              </label>
-              <label class="radio-option">
-                <input type="radio" name="imovel" value="Parceria rural">
-                <span class="radio-label">Parceria rural</span>
-              </label>
-            </div>
-          </div>
-
-          <div class="form-row">
             <div class="form-group">
-              <label for="areaUtil">Área útil do imóvel <span class="req">*</span></label>
-              <input type="text" id="areaUtil" name="areaUtil" placeholder="Ex: 150 ha" required>
+              <label>Quais opções de garantia negociou fornecer? <span class="req">*</span></label>
+              <div class="check-group" id="garantiasGroup">
+                <label class="check-option"><input type="checkbox" name="garantias" value="CPR física"><span class="check-label">CPR física</span></label>
+                <label class="check-option"><input type="checkbox" name="garantias" value="CPR financeira"><span class="check-label">CPR financeira</span></label>
+                <label class="check-option"><input type="checkbox" name="garantias" value="Avalista"><span class="check-label">Avalista</span></label>
+                <label class="check-option"><input type="checkbox" name="garantias" value="Alienação fiduciária"><span class="check-label">Alienação fiduciária</span></label>
+                <label class="check-option"><input type="checkbox" name="garantias" value="Hipoteca"><span class="check-label">Hipoteca</span></label>
+                <label class="check-option"><input type="checkbox" name="garantias" value="Cessão fiduciária"><span class="check-label">Cessão fiduciária</span></label>
+                <label class="check-option"><input type="checkbox" name="garantias" value="Seguro rural"><span class="check-label">Seguro rural</span></label>
+                <label class="check-option"><input type="checkbox" name="garantias" value="Nenhuma"><span class="check-label">Nenhuma</span></label>
+                <label class="check-option" id="checkGarantiasOutra"><input type="checkbox" name="garantias" value="Outra" id="cbGarantiasOutra"><span class="check-label">Outra</span></label>
+              </div>
+              <div id="garantiasOutraWrap" style="display:none; margin-top:10px;">
+                <input type="text" id="garantiasOutra" name="garantiasOutra" placeholder="Descreva a outra garantia..." maxlength="200">
+              </div>
             </div>
+          </section>
+
+          <!-- ── 02 Propriedade & Produção ────────────────────── -->
+          <section class="form-section" id="s2">
+            <div class="section-title">
+              <span class="section-num">02</span>
+              Propriedade &amp; Produção
+            </div>
+
             <div class="form-group">
-              <label for="areaPlantada">Área plantada <span class="req">*</span></label>
-              <input type="text" id="areaPlantada" name="areaPlantada" placeholder="Ex: 120 ha" required>
+              <label>Imóvel <span class="req">*</span></label>
+              <div class="radio-group">
+                <label class="radio-option">
+                  <input type="radio" name="imovel" value="Próprio" required>
+                  <span class="radio-label">Próprio</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="imovel" value="Arrendado">
+                  <span class="radio-label">Arrendado</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="imovel" value="Parceria rural">
+                  <span class="radio-label">Parceria rural</span>
+                </label>
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label for="estimativaSafra">Estimativa de Safra <span class="req">*</span></label>
-            <input type="text" id="estimativaSafra" name="estimativaSafra" placeholder="Ex: 500 sacas" required>
-          </div>
-
-          <div class="form-group">
-            <label>Culturas exploradas nos últimos 03 anos <span class="req">*</span></label>
-            <div class="check-group" id="culturasGroup">
-              <label class="check-option"><input type="checkbox" name="culturas" value="Soja"><span class="check-label">Soja</span></label>
-              <label class="check-option"><input type="checkbox" name="culturas" value="Cana de açúcar"><span class="check-label">Cana de açúcar</span></label>
-              <label class="check-option"><input type="checkbox" name="culturas" value="Milho"><span class="check-label">Milho</span></label>
-              <label class="check-option"><input type="checkbox" name="culturas" value="Café"><span class="check-label">Café</span></label>
-              <label class="check-option"><input type="checkbox" name="culturas" value="Arroz"><span class="check-label">Arroz</span></label>
-              <label class="check-option"><input type="checkbox" name="culturas" value="Feijão"><span class="check-label">Feijão</span></label>
-              <label class="check-option"><input type="checkbox" name="culturas" value="Trigo"><span class="check-label">Trigo</span></label>
-              <label class="check-option"><input type="checkbox" name="culturas" value="Algodão"><span class="check-label">Algodão</span></label>
-              <label class="check-option"><input type="checkbox" name="culturas" value="Tomate"><span class="check-label">Tomate</span></label>
-              <label class="check-option"><input type="checkbox" name="culturas" value="Batata"><span class="check-label">Batata</span></label>
-              <label class="check-option" id="checkOutros"><input type="checkbox" name="culturas" value="Outros" id="cbOutros"><span class="check-label">Outros</span></label>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="areaUtil">Área útil do imóvel <span class="req">*</span></label>
+                <input type="text" id="areaUtil" name="areaUtil" placeholder="Ex: 150 ha" required>
+              </div>
+              <div class="form-group">
+                <label for="areaPlantada">Área plantada <span class="req">*</span></label>
+                <input type="text" id="areaPlantada" name="areaPlantada" placeholder="Ex: 120 ha" required>
+              </div>
             </div>
-            <div id="outrosWrap" style="display:none; margin-top:10px;">
-              <input type="text" id="culturasOutros" name="culturasOutros" placeholder="Descreva as outras culturas..." maxlength="200">
+
+            <div class="form-group">
+              <label for="estimativaSafra">Estimativa de Safra <span class="req">*</span></label>
+              <input type="text" id="estimativaSafra" name="estimativaSafra" placeholder="Ex: 500 sacas" required>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Armazém <span class="req">*</span></label>
-            <div class="radio-group">
-              <label class="radio-option">
-                <input type="radio" name="armazem" value="Próprio" required>
-                <span class="radio-label">Próprio</span>
-              </label>
-              <label class="radio-option">
-                <input type="radio" name="armazem" value="de Terceiro">
-                <span class="radio-label">de Terceiro</span>
-              </label>
-              <label class="radio-option">
-                <input type="radio" name="armazem" value="Misto">
-                <span class="radio-label">Misto</span>
-              </label>
+            <div class="form-group">
+              <label>Culturas exploradas nos últimos 03 anos <span class="req">*</span></label>
+              <div class="check-group" id="culturasGroup">
+                <label class="check-option"><input type="checkbox" name="culturas" value="Soja"><span class="check-label">Soja</span></label>
+                <label class="check-option"><input type="checkbox" name="culturas" value="Cana de açúcar"><span class="check-label">Cana de açúcar</span></label>
+                <label class="check-option"><input type="checkbox" name="culturas" value="Milho"><span class="check-label">Milho</span></label>
+                <label class="check-option"><input type="checkbox" name="culturas" value="Café"><span class="check-label">Café</span></label>
+                <label class="check-option"><input type="checkbox" name="culturas" value="Arroz"><span class="check-label">Arroz</span></label>
+                <label class="check-option"><input type="checkbox" name="culturas" value="Feijão"><span class="check-label">Feijão</span></label>
+                <label class="check-option"><input type="checkbox" name="culturas" value="Trigo"><span class="check-label">Trigo</span></label>
+                <label class="check-option"><input type="checkbox" name="culturas" value="Algodão"><span class="check-label">Algodão</span></label>
+                <label class="check-option"><input type="checkbox" name="culturas" value="Tomate"><span class="check-label">Tomate</span></label>
+                <label class="check-option"><input type="checkbox" name="culturas" value="Batata"><span class="check-label">Batata</span></label>
+                <label class="check-option" id="checkOutros"><input type="checkbox" name="culturas" value="Outros" id="cbOutros"><span class="check-label">Outros</span></label>
+              </div>
+              <div id="outrosWrap" style="display:none; margin-top:10px;">
+                <input type="text" id="culturasOutros" name="culturasOutros" placeholder="Descreva as outras culturas..." maxlength="200">
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label for="capacidadeArmazem">Qual a capacidade total dos armazéns? <span class="req">*</span></label>
-            <input type="text" id="capacidadeArmazem" name="capacidadeArmazem" placeholder="Ex: 5.000 sacas" required>
-          </div>
-
-          <div class="form-group">
-            <label for="enderecosArmazem">Informe os endereços dos armazéns <span class="req">*</span></label>
-            <textarea id="enderecosArmazem" name="enderecosArmazem" placeholder="Informe o(s) endereço(s)..." rows="3" required></textarea>
-          </div>
-
-          <div class="form-group">
-            <label for="trading">Possui relacionamento com alguma trading? Se sim, informe abaixo o contato. <span class="req">*</span></label>
-            <input type="text" id="trading" name="trading" placeholder="Ex: Bunge — João Silva, (11) 91234-5678" required>
-          </div>
-
-          <!-- ── Compliance e Due Diligence ───────────────────────────── -->
-          <div class="section-title">Compliance e Due Diligence</div>
-
-          <div class="form-group">
-            <label>Na última etapa de documentos, precisamos que você envie as seguintes certidões e declarações: <span class="req">*</span></label>
-            <div class="check-group check-group--1col" id="certidoesGroup">
-              <label class="check-option"><input type="checkbox" name="certidoes" value="Certidão da Receita Federal"><span class="check-label">Certidão da Receita Federal</span></label>
-              <label class="check-option"><input type="checkbox" name="certidoes" value="Certidão da PGFN"><span class="check-label">Certidão da PGFN</span></label>
-              <label class="check-option"><input type="checkbox" name="certidoes" value="Certidão negativa de dívida ativa municipal"><span class="check-label">Certidão negativa de dívida ativa municipal</span></label>
-              <label class="check-option"><input type="checkbox" name="certidoes" value="Certidão negativa de dívida ativa estadual"><span class="check-label">Certidão negativa de dívida ativa estadual</span></label>
-              <label class="check-option"><input type="checkbox" name="certidoes" value="Certidão negativa de dívida ativa federal"><span class="check-label">Certidão negativa de dívida ativa federal</span></label>
-              <label class="check-option"><input type="checkbox" name="certidoes" value="Certidão de distribuição de ações trabalhistas"><span class="check-label">Certidão de distribuição de ações trabalhistas</span></label>
-              <label class="check-option"><input type="checkbox" name="certidoes" value="Certidão de protestos"><span class="check-label">Certidão de protestos</span></label>
-              <label class="check-option"><input type="checkbox" name="certidoes" value="Certidão estadual de distribuição de processos cíveis; recuperações judiciais; e execuções judiciais"><span class="check-label">Certidão estadual de distribuição de processos cíveis; recuperações judiciais; e execuções judiciais</span></label>
-              <label class="check-option"><input type="checkbox" name="certidoes" value="Certidão federal de distribuição de processos cíveis e execuções fiscais"><span class="check-label">Certidão federal de distribuição de processos cíveis e execuções fiscais</span></label>
-              <label class="check-option"><input type="checkbox" name="certidoes" value="Declaração BACEN/Serasa"><span class="check-label">Declaração BACEN/Serasa</span></label>
-              <label class="check-option"><input type="checkbox" name="certidoes" value="Declaração de inexistência de embargos ambientais (IBAMA)"><span class="check-label">Declaração de inexistência de embargos ambientais (IBAMA)</span></label>
-              <label class="check-option"><input type="checkbox" name="certidoes" value="Declaração de Reconhecimento de Limites (DRL) - áreas indígenas"><span class="check-label">Declaração de Reconhecimento de Limites (DRL) - áreas indígenas</span></label>
-              <label class="check-option"><input type="checkbox" name="certidoes" value="Certificado de licenciamento ambiental"><span class="check-label">Certificado de licenciamento ambiental</span></label>
+            <div class="form-group">
+              <label>Armazém <span class="req">*</span></label>
+              <div class="radio-group">
+                <label class="radio-option">
+                  <input type="radio" name="armazem" value="Próprio" required>
+                  <span class="radio-label">Próprio</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="armazem" value="de Terceiro">
+                  <span class="radio-label">de Terceiro</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="armazem" value="Misto">
+                  <span class="radio-label">Misto</span>
+                </label>
+              </div>
             </div>
-          </div>
 
-          <!-- ── Compliance Socioambiental ─────────────────────────── -->
-          <div class="section-title">Compliance Socioambiental</div>
-
-          <div class="form-group">
-            <label>Declaro para todos os fins que a propriedade não está em área de reserva legal; que não pratiquei atos de desmatamento recentemente (últimos 03 anos); bem como não estou listado na "lista suja" do MPT - Cadastro de Empregadores que tenham submetido trabalhadores a condições análogas à escravidão. <span class="req">*</span></label>
-            <div class="radio-group radio-group--2col">
-              <label class="radio-option">
-                <input type="radio" name="declaracaoSocioambiental" value="Sim, eu declaro" required>
-                <span class="radio-label">Sim, eu declaro</span>
-              </label>
-              <label class="radio-option">
-                <input type="radio" name="declaracaoSocioambiental" value="Não">
-                <span class="radio-label">Não</span>
-              </label>
+            <div class="form-group">
+              <label for="capacidadeArmazem">Capacidade total dos armazéns <span class="req">*</span></label>
+              <input type="text" id="capacidadeArmazem" name="capacidadeArmazem" placeholder="Ex: 5.000 sacas" required>
             </div>
-          </div>
 
-          <!-- ── Documentos & Envio ─────────────────────────────────── -->
-          <div class="section-title">Documentos &amp; Envio</div>
-
-          <div class="form-group">
-            <div class="docs-info" id="docsInfo">
-              <div class="docs-info-title">📋 Documentos necessários para envio:</div>
-              <ul class="docs-list" id="docsList"></ul>
+            <div class="form-group">
+              <label for="enderecosArmazem">Endereços dos armazéns <span class="req">*</span></label>
+              <textarea id="enderecosArmazem" name="enderecosArmazem" placeholder="Informe o(s) endereço(s)..." rows="3" required></textarea>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Arquivos <span class="req">*</span></label>
-            <div class="drop-zone" id="dropZone">
-              <input type="file" id="arquivos" name="arquivos" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.txt,.zip">
-              <div class="drop-icon">📁</div>
-              <p>Arraste os arquivos aqui ou <strong>clique para selecionar</strong></p>
-              <small>PDF, Word, Excel, imagens, ZIP — até 20MB por arquivo</small>
+            <div class="form-group">
+              <label for="trading">Relacionamento com trading <span class="req">*</span></label>
+              <input type="text" id="trading" name="trading" placeholder="Ex: Bunge — João Silva, (11) 91234-5678" required>
             </div>
-            <ul id="listaArquivos" class="file-list"></ul>
-          </div>
+          </section>
 
-          <div class="form-actions">
-            <button type="submit" class="btn-primary" id="btnEnviar">+ Enviar Documentos</button>
-          </div>
+          <!-- ── 03 Compliance e Due Diligence ────────────────── -->
+          <section class="form-section" id="s3">
+            <div class="section-title">
+              <span class="section-num">03</span>
+              Compliance e Due Diligence
+            </div>
+
+            <div class="form-group">
+              <label>Certidões e declarações necessárias <span class="req">*</span></label>
+              <p class="field-hint">Selecione os documentos que serão enviados na seção de arquivos.</p>
+              <div class="checklist" id="certidoesGroup">
+                <label class="checklist-item"><input type="checkbox" name="certidoes" value="Certidão da Receita Federal"><span class="checklist-label">Certidão da Receita Federal</span></label>
+                <label class="checklist-item"><input type="checkbox" name="certidoes" value="Certidão da PGFN"><span class="checklist-label">Certidão da PGFN</span></label>
+                <label class="checklist-item"><input type="checkbox" name="certidoes" value="Certidão negativa de dívida ativa municipal"><span class="checklist-label">Certidão negativa de dívida ativa municipal</span></label>
+                <label class="checklist-item"><input type="checkbox" name="certidoes" value="Certidão negativa de dívida ativa estadual"><span class="checklist-label">Certidão negativa de dívida ativa estadual</span></label>
+                <label class="checklist-item"><input type="checkbox" name="certidoes" value="Certidão negativa de dívida ativa federal"><span class="checklist-label">Certidão negativa de dívida ativa federal</span></label>
+                <label class="checklist-item"><input type="checkbox" name="certidoes" value="Certidão de distribuição de ações trabalhistas"><span class="checklist-label">Certidão de distribuição de ações trabalhistas</span></label>
+                <label class="checklist-item"><input type="checkbox" name="certidoes" value="Certidão de protestos"><span class="checklist-label">Certidão de protestos</span></label>
+                <label class="checklist-item"><input type="checkbox" name="certidoes" value="Certidão estadual de distribuição de processos cíveis; recuperações judiciais; e execuções judiciais"><span class="checklist-label">Certidão estadual de distribuição de processos cíveis, recuperações judiciais e execuções judiciais</span></label>
+                <label class="checklist-item"><input type="checkbox" name="certidoes" value="Certidão federal de distribuição de processos cíveis e execuções fiscais"><span class="checklist-label">Certidão federal de distribuição de processos cíveis e execuções fiscais</span></label>
+                <label class="checklist-item"><input type="checkbox" name="certidoes" value="Declaração BACEN/Serasa"><span class="checklist-label">Declaração BACEN/Serasa</span></label>
+                <label class="checklist-item"><input type="checkbox" name="certidoes" value="Declaração de inexistência de embargos ambientais (IBAMA)"><span class="checklist-label">Declaração de inexistência de embargos ambientais (IBAMA)</span></label>
+                <label class="checklist-item"><input type="checkbox" name="certidoes" value="Declaração de Reconhecimento de Limites (DRL) - áreas indígenas"><span class="checklist-label">Declaração de Reconhecimento de Limites (DRL) — áreas indígenas</span></label>
+                <label class="checklist-item"><input type="checkbox" name="certidoes" value="Certificado de licenciamento ambiental"><span class="checklist-label">Certificado de licenciamento ambiental</span></label>
+              </div>
+            </div>
+          </section>
+
+          <!-- ── 04 Compliance Socioambiental ─────────────────── -->
+          <section class="form-section" id="s4">
+            <div class="section-title">
+              <span class="section-num">04</span>
+              Compliance Socioambiental
+            </div>
+
+            <div class="form-group">
+              <div class="declaration-box">
+                <div class="declaration-icon">⚖️</div>
+                <p class="declaration-text">Declaro para todos os fins que a propriedade não está em área de reserva legal; que não pratiquei atos de desmatamento recentemente (últimos 03 anos); bem como não estou listado na "lista suja" do MPT — Cadastro de Empregadores que tenham submetido trabalhadores a condições análogas à escravidão.</p>
+              </div>
+              <label style="margin-top:16px">Minha declaração <span class="req">*</span></label>
+              <div class="radio-group radio-group--2col">
+                <label class="radio-option">
+                  <input type="radio" name="declaracaoSocioambiental" value="Sim, eu declaro" required>
+                  <span class="radio-label">Sim, eu declaro</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="declaracaoSocioambiental" value="Não">
+                  <span class="radio-label">Não</span>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <!-- ── 05 Documentos & Envio ─────────────────────────── -->
+          <section class="form-section" id="s5">
+            <div class="section-title">
+              <span class="section-num">05</span>
+              Documentos &amp; Envio
+            </div>
+
+            <div class="form-group">
+              <div class="docs-info" id="docsInfo">
+                <div class="docs-info-title">📋 Documentos necessários para envio:</div>
+                <ul class="docs-list" id="docsList"></ul>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Arquivos <span class="req">*</span></label>
+              <div class="drop-zone" id="dropZone">
+                <input type="file" id="arquivos" name="arquivos" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.txt,.zip">
+                <div class="drop-icon">📁</div>
+                <p>Arraste os arquivos aqui ou <strong>clique para selecionar</strong></p>
+                <small>PDF, Word, Excel, imagens, ZIP — até 20MB por arquivo</small>
+              </div>
+              <ul id="listaArquivos" class="file-list"></ul>
+            </div>
+
+            <div id="msgErro" class="alert alert-error" style="display:none"></div>
+            <div id="msgSucesso" class="alert alert-success" style="display:none">
+              ✅ Documentos enviados com sucesso! Obrigado.
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" id="btnEnviar">
+                <span>Enviar Documentos</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </section>
 
         </form>
-
-        <div id="msgSucesso" class="alert alert-success" style="display:none">
-          ✅ Documentos enviados com sucesso! Obrigado.
-        </div>
-        <div id="msgErro" class="alert alert-error" style="display:none"></div>
       </div>
-    </div>
+    </main>
+
   </div>
 
   <script>
@@ -389,7 +455,6 @@
       msgErro.style.display = 'none';
       msgSucesso.style.display = 'none';
 
-      // validação
       const doc = inputDoc.value.trim();
       if (!doc) {
         msgErro.textContent = 'Informe o ' + (inputTipo.value === 'PF' ? 'CPF' : 'CNPJ') + '.';
@@ -433,7 +498,6 @@
         msgErro.textContent = 'Responda a declaração socioambiental.';
         msgErro.style.display = 'block'; return;
       }
-
       if (!document.querySelector('input[name="armazem"]:checked')) {
         msgErro.textContent = 'Selecione o tipo de armazém.';
         msgErro.style.display = 'block'; return;
@@ -450,7 +514,6 @@
         msgErro.textContent = 'Informe o relacionamento com trading (ou "Não possui").';
         msgErro.style.display = 'block'; return;
       }
-
       const garantiasSel = [...document.querySelectorAll('input[name="garantias"]:checked')].map(c => c.value);
       if (garantiasSel.length === 0) {
         msgErro.textContent = 'Selecione ao menos uma opção de garantia.';
@@ -460,7 +523,6 @@
         msgErro.textContent = 'Descreva a outra garantia negociada.';
         msgErro.style.display = 'block'; return;
       }
-
       if (arquivosSelecionados.length === 0) {
         msgErro.textContent = 'Selecione ao menos um arquivo.';
         msgErro.style.display = 'block'; return;
@@ -468,6 +530,9 @@
 
       if (culturasSel.includes('Outros')) {
         culturasSel[culturasSel.indexOf('Outros')] = 'Outros: ' + document.getElementById('culturasOutros').value.trim();
+      }
+      if (garantiasSel.includes('Outra')) {
+        garantiasSel[garantiasSel.indexOf('Outra')] = 'Outra: ' + document.getElementById('garantiasOutra').value.trim();
       }
 
       const formData = new FormData();
@@ -479,9 +544,6 @@
       formData.append('areaPlantada', document.getElementById('areaPlantada').value.trim());
       formData.append('estimativaSafra', document.getElementById('estimativaSafra').value.trim());
       formData.append('culturas', culturasSel.join(', '));
-      if (garantiasSel.includes('Outra')) {
-        garantiasSel[garantiasSel.indexOf('Outra')] = 'Outra: ' + document.getElementById('garantiasOutra').value.trim();
-      }
       formData.append('garantias', garantiasSel.join(', '));
       formData.append('cooperativas', document.getElementById('cooperativas').value.trim());
       formData.append('certidoes', certidoesSel.join(', '));
@@ -494,7 +556,7 @@
 
       const btn = document.getElementById('btnEnviar');
       btn.disabled = true;
-      btn.textContent = 'Enviando...';
+      btn.querySelector('span').textContent = 'Enviando...';
 
       try {
         const res  = await fetch('/upload', { method: 'POST', body: formData });
@@ -510,6 +572,7 @@
           arquivosSelecionados = [];
           renderLista();
           atualizarDocs('PJ');
+          msgSucesso.scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else {
           msgErro.textContent = json.msg || 'Erro ao enviar.';
           msgErro.style.display = 'block';
@@ -519,9 +582,25 @@
         msgErro.style.display = 'block';
       } finally {
         btn.disabled = false;
-        btn.textContent = '+ Enviar Documentos';
+        btn.querySelector('span').textContent = 'Enviar Documentos';
       }
     });
+
+    // ── Scroll spy ────────────────────────────────────────────────
+    const formSections = document.querySelectorAll('.form-section');
+    const navLinks = document.querySelectorAll('.nav-item');
+
+    const spy = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(n => n.classList.remove('active'));
+          const link = document.querySelector(`.nav-item[href="#${entry.target.id}"]`);
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-10% 0px -65% 0px' });
+
+    formSections.forEach(s => spy.observe(s));
   </script>
 </body>
 </html>
