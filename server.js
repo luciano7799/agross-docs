@@ -54,7 +54,7 @@ function isAdmin(req) { return req.session && req.session.isAdmin; }
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 
 app.post('/upload', upload.array('arquivos', 10), async (req, res) => {
-  const { tipo, cnpj, obs, limiteCredito, imovel, culturas } = req.body;
+  const { tipo, cnpj, obs, limiteCredito, imovel, areaUtil, areaPlantada, estimativaSafra, culturas } = req.body;
   if (!cnpj || !req.files || req.files.length === 0) {
     return res.status(400).json({ ok: false, msg: 'Informe o CPF/CNPJ e envie ao menos um arquivo.' });
   }
@@ -78,6 +78,9 @@ app.post('/upload', upload.array('arquivos', 10), async (req, res) => {
     cnpj,
     limite_credito: limiteCredito || '',
     imovel: imovel || '',
+    area_util: areaUtil || '',
+    area_plantada: areaPlantada || '',
+    estimativa_safra: estimativaSafra || '',
     culturas: culturas || '',
     obs: obs || '',
     data: new Date().toISOString(),

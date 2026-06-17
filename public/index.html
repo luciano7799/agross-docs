@@ -64,6 +64,24 @@
           </div>
         </div>
 
+        <!-- Área útil do imóvel -->
+        <div class="form-group">
+          <label for="areaUtil">Área útil do imóvel <span class="req">*</span></label>
+          <input type="text" id="areaUtil" name="areaUtil" placeholder="Ex: 150 ha" required>
+        </div>
+
+        <!-- Área plantada -->
+        <div class="form-group">
+          <label for="areaPlantada">Informe a área plantada <span class="req">*</span></label>
+          <input type="text" id="areaPlantada" name="areaPlantada" placeholder="Ex: 120 ha" required>
+        </div>
+
+        <!-- Estimativa de Safra -->
+        <div class="form-group">
+          <label for="estimativaSafra">Estimativa de Safra <span class="req">*</span></label>
+          <input type="text" id="estimativaSafra" name="estimativaSafra" placeholder="Ex: 500 sacas" required>
+        </div>
+
         <!-- Culturas exploradas -->
         <div class="form-group">
           <label>Informe as culturas exploradas nos últimos 03 anos <span class="req">*</span></label>
@@ -274,6 +292,15 @@
       const imovelEl = document.querySelector('input[name="imovel"]:checked');
       if (!imovelEl) { msgErro.textContent = 'Selecione o tipo de imóvel.'; msgErro.style.display = 'block'; return; }
 
+      const areaUtil = document.getElementById('areaUtil').value.trim();
+      if (!areaUtil) { msgErro.textContent = 'Informe a área útil do imóvel.'; msgErro.style.display = 'block'; return; }
+
+      const areaPlantada = document.getElementById('areaPlantada').value.trim();
+      if (!areaPlantada) { msgErro.textContent = 'Informe a área plantada.'; msgErro.style.display = 'block'; return; }
+
+      const estimativaSafra = document.getElementById('estimativaSafra').value.trim();
+      if (!estimativaSafra) { msgErro.textContent = 'Informe a estimativa de safra.'; msgErro.style.display = 'block'; return; }
+
       const culturasSel = [...document.querySelectorAll('input[name="culturas"]:checked')].map(c => c.value);
       if (culturasSel.length === 0) { msgErro.textContent = 'Selecione ao menos uma cultura explorada.'; msgErro.style.display = 'block'; return; }
       if (culturasSel.includes('Outros')) {
@@ -286,6 +313,9 @@
       formData.append('cnpj', documento);
       formData.append('limiteCredito', limiteCredito);
       formData.append('imovel', imovelEl.value);
+      formData.append('areaUtil', areaUtil);
+      formData.append('areaPlantada', areaPlantada);
+      formData.append('estimativaSafra', estimativaSafra);
       formData.append('culturas', culturasSel.join(', '));
 
       arquivosSelecionados.forEach(f => formData.append('arquivos', f));
