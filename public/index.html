@@ -47,6 +47,12 @@
           <input type="text" id="documento" name="documento" placeholder="00.000.000/0000-00" maxlength="18" required>
         </div>
 
+        <!-- Limite de crédito bancário -->
+        <div class="form-group">
+          <label for="limiteCredito">Informe os limites de créditos bancários ativos <span class="req">*</span></label>
+          <input type="text" id="limiteCredito" name="limiteCredito" placeholder="R$ 0,00" required>
+        </div>
+
         <!-- Observação -->
         <div class="form-group">
           <label for="obs">Observação</label>
@@ -135,6 +141,14 @@
       });
     });
 
+    // ── Máscara moeda ─────────────────────────────────────────────
+    document.getElementById('limiteCredito').addEventListener('input', function () {
+      let v = this.value.replace(/\D/g, '');
+      if (!v) { this.value = ''; return; }
+      v = (parseInt(v, 10) / 100).toFixed(2);
+      this.value = 'R$ ' + v.replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    });
+
     // ── Máscaras ──────────────────────────────────────────────────
     inputDoc.addEventListener('input', function () {
       const tipo = inputTipo.value;
@@ -214,8 +228,12 @@
       if (arquivosSelecionados.length === 0) { msgErro.textContent = 'Selecione ao menos um arquivo.'; msgErro.style.display = 'block'; return; }
 
       const formData = new FormData();
+      const limiteCredito = document.getElementById('limiteCredito').value.trim();
+      if (!limiteCredito) { msgErro.textContent = 'Informe os limites de créditos bancários ativos.'; msgErro.style.display = 'block'; return; }
+
       formData.append('tipo', tipo);
       formData.append('cnpj', documento);
+      formData.append('limiteCredito', limiteCredito);
       formData.append('obs', document.getElementById('obs').value);
       arquivosSelecionados.forEach(f => formData.append('arquivos', f));
 
