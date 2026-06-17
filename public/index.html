@@ -131,6 +131,39 @@
             </div>
           </div>
 
+          <div class="form-group">
+            <label>Armazém <span class="req">*</span></label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="armazem" value="Próprio" required>
+                <span class="radio-label">Próprio</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="armazem" value="de Terceiro">
+                <span class="radio-label">de Terceiro</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="armazem" value="Misto">
+                <span class="radio-label">Misto</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="capacidadeArmazem">Qual a capacidade total dos armazéns? <span class="req">*</span></label>
+            <input type="text" id="capacidadeArmazem" name="capacidadeArmazem" placeholder="Ex: 5.000 sacas" required>
+          </div>
+
+          <div class="form-group">
+            <label for="enderecosArmazem">Informe os endereços dos armazéns <span class="req">*</span></label>
+            <textarea id="enderecosArmazem" name="enderecosArmazem" placeholder="Informe o(s) endereço(s)..." rows="3" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="trading">Possui relacionamento com alguma trading? Se sim, informe abaixo o contato. <span class="req">*</span></label>
+            <input type="text" id="trading" name="trading" placeholder="Ex: Bunge — João Silva, (11) 91234-5678" required>
+          </div>
+
           <!-- ── Documentos & Envio ─────────────────────────────────── -->
           <div class="section-title">Documentos &amp; Envio</div>
 
@@ -352,6 +385,23 @@
         msgErro.textContent = 'Descreva as outras culturas exploradas.';
         msgErro.style.display = 'block'; return;
       }
+      if (!document.querySelector('input[name="armazem"]:checked')) {
+        msgErro.textContent = 'Selecione o tipo de armazém.';
+        msgErro.style.display = 'block'; return;
+      }
+      if (!document.getElementById('capacidadeArmazem').value.trim()) {
+        msgErro.textContent = 'Informe a capacidade total dos armazéns.';
+        msgErro.style.display = 'block'; return;
+      }
+      if (!document.getElementById('enderecosArmazem').value.trim()) {
+        msgErro.textContent = 'Informe os endereços dos armazéns.';
+        msgErro.style.display = 'block'; return;
+      }
+      if (!document.getElementById('trading').value.trim()) {
+        msgErro.textContent = 'Informe o relacionamento com trading (ou "Não possui").';
+        msgErro.style.display = 'block'; return;
+      }
+
       const garantiasSel = [...document.querySelectorAll('input[name="garantias"]:checked')].map(c => c.value);
       if (garantiasSel.length === 0) {
         msgErro.textContent = 'Selecione ao menos uma opção de garantia.';
@@ -385,6 +435,10 @@
       }
       formData.append('garantias', garantiasSel.join(', '));
       formData.append('cooperativas', document.getElementById('cooperativas').value.trim());
+      formData.append('armazem', document.querySelector('input[name="armazem"]:checked').value);
+      formData.append('capacidadeArmazem', document.getElementById('capacidadeArmazem').value.trim());
+      formData.append('enderecosArmazem', document.getElementById('enderecosArmazem').value.trim());
+      formData.append('trading', document.getElementById('trading').value.trim());
       arquivosSelecionados.forEach(f => formData.append('arquivos', f));
 
       const btn = document.getElementById('btnEnviar');
