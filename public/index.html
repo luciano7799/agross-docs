@@ -26,143 +26,111 @@
         <h2>Envio de Documentos</h2>
         <p class="subtitle">Preencha os dados e anexe os arquivos necessários.</p>
 
-        <!-- Indicador de etapas -->
-        <div class="wizard-steps" id="wizardSteps">
-          <div class="wstep active" data-step="1">
-            <div class="wstep-circle">1</div>
-            <div class="wstep-label">Identificação</div>
-          </div>
-          <div class="wstep-line"></div>
-          <div class="wstep" data-step="2">
-            <div class="wstep-circle">2</div>
-            <div class="wstep-label">Propriedade</div>
-          </div>
-          <div class="wstep-line"></div>
-          <div class="wstep" data-step="3">
-            <div class="wstep-circle">3</div>
-            <div class="wstep-label">Documentos</div>
-          </div>
-        </div>
-
         <form id="formEnvio" novalidate>
 
-          <!-- ══ PASSO 1 — Identificação ══════════════════════════════ -->
-          <div class="step" id="step1">
+          <!-- ── Identificação ─────────────────────────────────────── -->
+          <div class="section-title">Identificação</div>
 
+          <div class="form-group">
+            <label>Tipo de pessoa <span class="req">*</span></label>
+            <div class="tipo-toggle">
+              <button type="button" class="tipo-btn active" data-tipo="PJ">Pessoa Jurídica</button>
+              <button type="button" class="tipo-btn" data-tipo="PF">Pessoa Física</button>
+            </div>
+            <input type="hidden" id="tipo" name="tipo" value="PJ">
+          </div>
+
+          <div class="form-row">
             <div class="form-group">
-              <label>Tipo de pessoa <span class="req">*</span></label>
-              <div class="tipo-toggle">
-                <button type="button" class="tipo-btn active" data-tipo="PJ">Pessoa Jurídica</button>
-                <button type="button" class="tipo-btn" data-tipo="PF">Pessoa Física</button>
-              </div>
-              <input type="hidden" id="tipo" name="tipo" value="PJ">
+              <label for="documento" id="labelDocumento">CNPJ <span class="req">*</span></label>
+              <input type="text" id="documento" name="documento" placeholder="00.000.000/0000-00" maxlength="18" required>
             </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="documento" id="labelDocumento">CNPJ <span class="req">*</span></label>
-                <input type="text" id="documento" name="documento" placeholder="00.000.000/0000-00" maxlength="18" required>
-              </div>
-              <div class="form-group">
-                <label for="limiteCredito">Limites de crédito bancário <span class="req">*</span></label>
-                <input type="text" id="limiteCredito" name="limiteCredito" placeholder="R$ 0,00" required>
-              </div>
-            </div>
-
-            <div class="step-nav">
-              <span></span>
-              <button type="button" class="btn-primary btn-next" data-next="2">Próximo →</button>
+            <div class="form-group">
+              <label for="limiteCredito">Limites de crédito bancário <span class="req">*</span></label>
+              <input type="text" id="limiteCredito" name="limiteCredito" placeholder="R$ 0,00" required>
             </div>
           </div>
 
-          <!-- ══ PASSO 2 — Propriedade & Produção ════════════════════ -->
-          <div class="step" id="step2" style="display:none">
+          <!-- ── Propriedade & Produção ────────────────────────────── -->
+          <div class="section-title">Propriedade &amp; Produção</div>
 
-            <div class="form-group">
-              <label>Imóvel <span class="req">*</span></label>
-              <div class="radio-group">
-                <label class="radio-option">
-                  <input type="radio" name="imovel" value="Próprio" required>
-                  <span class="radio-label">Próprio</span>
-                </label>
-                <label class="radio-option">
-                  <input type="radio" name="imovel" value="Arrendado">
-                  <span class="radio-label">Arrendado</span>
-                </label>
-                <label class="radio-option">
-                  <input type="radio" name="imovel" value="Parceria rural">
-                  <span class="radio-label">Parceria rural</span>
-                </label>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="areaUtil">Área útil do imóvel <span class="req">*</span></label>
-                <input type="text" id="areaUtil" name="areaUtil" placeholder="Ex: 150 ha" required>
-              </div>
-              <div class="form-group">
-                <label for="areaPlantada">Área plantada <span class="req">*</span></label>
-                <input type="text" id="areaPlantada" name="areaPlantada" placeholder="Ex: 120 ha" required>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="estimativaSafra">Estimativa de Safra <span class="req">*</span></label>
-              <input type="text" id="estimativaSafra" name="estimativaSafra" placeholder="Ex: 500 sacas" required>
-            </div>
-
-            <div class="form-group">
-              <label>Culturas exploradas nos últimos 03 anos <span class="req">*</span></label>
-              <div class="check-group" id="culturasGroup">
-                <label class="check-option"><input type="checkbox" name="culturas" value="Soja"><span class="check-label">Soja</span></label>
-                <label class="check-option"><input type="checkbox" name="culturas" value="Cana de açúcar"><span class="check-label">Cana de açúcar</span></label>
-                <label class="check-option"><input type="checkbox" name="culturas" value="Milho"><span class="check-label">Milho</span></label>
-                <label class="check-option"><input type="checkbox" name="culturas" value="Café"><span class="check-label">Café</span></label>
-                <label class="check-option"><input type="checkbox" name="culturas" value="Arroz"><span class="check-label">Arroz</span></label>
-                <label class="check-option"><input type="checkbox" name="culturas" value="Feijão"><span class="check-label">Feijão</span></label>
-                <label class="check-option"><input type="checkbox" name="culturas" value="Trigo"><span class="check-label">Trigo</span></label>
-                <label class="check-option"><input type="checkbox" name="culturas" value="Algodão"><span class="check-label">Algodão</span></label>
-                <label class="check-option"><input type="checkbox" name="culturas" value="Tomate"><span class="check-label">Tomate</span></label>
-                <label class="check-option"><input type="checkbox" name="culturas" value="Batata"><span class="check-label">Batata</span></label>
-                <label class="check-option" id="checkOutros"><input type="checkbox" name="culturas" value="Outros" id="cbOutros"><span class="check-label">Outros</span></label>
-              </div>
-              <div id="outrosWrap" style="display:none; margin-top:10px;">
-                <input type="text" id="culturasOutros" name="culturasOutros" placeholder="Descreva as outras culturas..." maxlength="200">
-              </div>
-            </div>
-
-            <div class="step-nav">
-              <button type="button" class="btn-outline btn-back" data-back="1">← Anterior</button>
-              <button type="button" class="btn-primary btn-next" data-next="3">Próximo →</button>
+          <div class="form-group">
+            <label>Imóvel <span class="req">*</span></label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="imovel" value="Próprio" required>
+                <span class="radio-label">Próprio</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="imovel" value="Arrendado">
+                <span class="radio-label">Arrendado</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="imovel" value="Parceria rural">
+                <span class="radio-label">Parceria rural</span>
+              </label>
             </div>
           </div>
 
-          <!-- ══ PASSO 3 — Documentos & Envio ════════════════════════ -->
-          <div class="step" id="step3" style="display:none">
-
+          <div class="form-row">
             <div class="form-group">
-              <div class="docs-info" id="docsInfo">
-                <div class="docs-info-title">📋 Documentos necessários para envio:</div>
-                <ul class="docs-list" id="docsList"></ul>
-              </div>
+              <label for="areaUtil">Área útil do imóvel <span class="req">*</span></label>
+              <input type="text" id="areaUtil" name="areaUtil" placeholder="Ex: 150 ha" required>
             </div>
-
             <div class="form-group">
-              <label>Arquivos <span class="req">*</span></label>
-              <div class="drop-zone" id="dropZone">
-                <input type="file" id="arquivos" name="arquivos" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.txt,.zip">
-                <div class="drop-icon">📁</div>
-                <p>Arraste os arquivos aqui ou <strong>clique para selecionar</strong></p>
-                <small>PDF, Word, Excel, imagens, ZIP — até 20MB por arquivo</small>
-              </div>
-              <ul id="listaArquivos" class="file-list"></ul>
+              <label for="areaPlantada">Área plantada <span class="req">*</span></label>
+              <input type="text" id="areaPlantada" name="areaPlantada" placeholder="Ex: 120 ha" required>
             </div>
+          </div>
 
-            <div class="step-nav">
-              <button type="button" class="btn-outline btn-back" data-back="2">← Anterior</button>
-              <button type="submit" class="btn-primary" id="btnEnviar">+ Enviar Documentos</button>
+          <div class="form-group">
+            <label for="estimativaSafra">Estimativa de Safra <span class="req">*</span></label>
+            <input type="text" id="estimativaSafra" name="estimativaSafra" placeholder="Ex: 500 sacas" required>
+          </div>
+
+          <div class="form-group">
+            <label>Culturas exploradas nos últimos 03 anos <span class="req">*</span></label>
+            <div class="check-group" id="culturasGroup">
+              <label class="check-option"><input type="checkbox" name="culturas" value="Soja"><span class="check-label">Soja</span></label>
+              <label class="check-option"><input type="checkbox" name="culturas" value="Cana de açúcar"><span class="check-label">Cana de açúcar</span></label>
+              <label class="check-option"><input type="checkbox" name="culturas" value="Milho"><span class="check-label">Milho</span></label>
+              <label class="check-option"><input type="checkbox" name="culturas" value="Café"><span class="check-label">Café</span></label>
+              <label class="check-option"><input type="checkbox" name="culturas" value="Arroz"><span class="check-label">Arroz</span></label>
+              <label class="check-option"><input type="checkbox" name="culturas" value="Feijão"><span class="check-label">Feijão</span></label>
+              <label class="check-option"><input type="checkbox" name="culturas" value="Trigo"><span class="check-label">Trigo</span></label>
+              <label class="check-option"><input type="checkbox" name="culturas" value="Algodão"><span class="check-label">Algodão</span></label>
+              <label class="check-option"><input type="checkbox" name="culturas" value="Tomate"><span class="check-label">Tomate</span></label>
+              <label class="check-option"><input type="checkbox" name="culturas" value="Batata"><span class="check-label">Batata</span></label>
+              <label class="check-option" id="checkOutros"><input type="checkbox" name="culturas" value="Outros" id="cbOutros"><span class="check-label">Outros</span></label>
             </div>
+            <div id="outrosWrap" style="display:none; margin-top:10px;">
+              <input type="text" id="culturasOutros" name="culturasOutros" placeholder="Descreva as outras culturas..." maxlength="200">
+            </div>
+          </div>
+
+          <!-- ── Documentos & Envio ─────────────────────────────────── -->
+          <div class="section-title">Documentos &amp; Envio</div>
+
+          <div class="form-group">
+            <div class="docs-info" id="docsInfo">
+              <div class="docs-info-title">📋 Documentos necessários para envio:</div>
+              <ul class="docs-list" id="docsList"></ul>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Arquivos <span class="req">*</span></label>
+            <div class="drop-zone" id="dropZone">
+              <input type="file" id="arquivos" name="arquivos" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.txt,.zip">
+              <div class="drop-icon">📁</div>
+              <p>Arraste os arquivos aqui ou <strong>clique para selecionar</strong></p>
+              <small>PDF, Word, Excel, imagens, ZIP — até 20MB por arquivo</small>
+            </div>
+            <ul id="listaArquivos" class="file-list"></ul>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary" id="btnEnviar">+ Enviar Documentos</button>
           </div>
 
         </form>
@@ -205,68 +173,6 @@
     function atualizarDocs(tipo) {
       document.getElementById('docsList').innerHTML = DOCS[tipo].map(d => `<li>${d}</li>`).join('');
     }
-
-    // ── Wizard: navegação entre etapas ───────────────────────────
-    let stepAtual = 1;
-
-    function mostrarStep(n) {
-      document.querySelectorAll('.step').forEach(s => s.style.display = 'none');
-      document.getElementById('step' + n).style.display = 'block';
-      stepAtual = n;
-      atualizarIndicador(n);
-      document.querySelector('.card').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    function atualizarIndicador(n) {
-      document.querySelectorAll('.wstep').forEach(el => {
-        const s = parseInt(el.dataset.step);
-        el.classList.toggle('active', s <= n);
-        el.classList.toggle('current', s === n);
-      });
-      document.querySelectorAll('.wstep-line').forEach((line, i) => {
-        line.classList.toggle('active', i + 1 < n);
-      });
-    }
-
-    function validarStep1() {
-      const msgErro = document.getElementById('msgErro');
-      msgErro.style.display = 'none';
-      const doc = document.getElementById('documento').value.trim();
-      if (!doc) { msgErro.textContent = 'Informe o ' + (document.getElementById('tipo').value === 'PF' ? 'CPF' : 'CNPJ') + '.'; msgErro.style.display = 'block'; return false; }
-      const credito = document.getElementById('limiteCredito').value.trim();
-      if (!credito) { msgErro.textContent = 'Informe os limites de créditos bancários ativos.'; msgErro.style.display = 'block'; return false; }
-      return true;
-    }
-
-    function validarStep2() {
-      const msgErro = document.getElementById('msgErro');
-      msgErro.style.display = 'none';
-      if (!document.querySelector('input[name="imovel"]:checked')) { msgErro.textContent = 'Selecione o tipo de imóvel.'; msgErro.style.display = 'block'; return false; }
-      if (!document.getElementById('areaUtil').value.trim()) { msgErro.textContent = 'Informe a área útil do imóvel.'; msgErro.style.display = 'block'; return false; }
-      if (!document.getElementById('areaPlantada').value.trim()) { msgErro.textContent = 'Informe a área plantada.'; msgErro.style.display = 'block'; return false; }
-      if (!document.getElementById('estimativaSafra').value.trim()) { msgErro.textContent = 'Informe a estimativa de safra.'; msgErro.style.display = 'block'; return false; }
-      const culturas = [...document.querySelectorAll('input[name="culturas"]:checked')];
-      if (culturas.length === 0) { msgErro.textContent = 'Selecione ao menos uma cultura explorada.'; msgErro.style.display = 'block'; return false; }
-      if (culturas.some(c => c.value === 'Outros') && !document.getElementById('culturasOutros').value.trim()) {
-        msgErro.textContent = 'Descreva as outras culturas exploradas.'; msgErro.style.display = 'block'; return false;
-      }
-      return true;
-    }
-
-    document.querySelectorAll('.btn-next').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const next = parseInt(btn.dataset.next);
-        const ok = stepAtual === 1 ? validarStep1() : validarStep2();
-        if (ok) mostrarStep(next);
-      });
-    });
-
-    document.querySelectorAll('.btn-back').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.getElementById('msgErro').style.display = 'none';
-        mostrarStep(parseInt(btn.dataset.back));
-      });
-    });
 
     // ── Tipo toggle ───────────────────────────────────────────────
     const tipoBtns  = document.querySelectorAll('.tipo-btn');
@@ -382,13 +288,46 @@
       msgErro.style.display = 'none';
       msgSucesso.style.display = 'none';
 
+      // validação
+      const doc = inputDoc.value.trim();
+      if (!doc) {
+        msgErro.textContent = 'Informe o ' + (inputTipo.value === 'PF' ? 'CPF' : 'CNPJ') + '.';
+        msgErro.style.display = 'block'; return;
+      }
+      if (!document.getElementById('limiteCredito').value.trim()) {
+        msgErro.textContent = 'Informe os limites de créditos bancários ativos.';
+        msgErro.style.display = 'block'; return;
+      }
+      if (!document.querySelector('input[name="imovel"]:checked')) {
+        msgErro.textContent = 'Selecione o tipo de imóvel.';
+        msgErro.style.display = 'block'; return;
+      }
+      if (!document.getElementById('areaUtil').value.trim()) {
+        msgErro.textContent = 'Informe a área útil do imóvel.';
+        msgErro.style.display = 'block'; return;
+      }
+      if (!document.getElementById('areaPlantada').value.trim()) {
+        msgErro.textContent = 'Informe a área plantada.';
+        msgErro.style.display = 'block'; return;
+      }
+      if (!document.getElementById('estimativaSafra').value.trim()) {
+        msgErro.textContent = 'Informe a estimativa de safra.';
+        msgErro.style.display = 'block'; return;
+      }
+      const culturasSel = [...document.querySelectorAll('input[name="culturas"]:checked')].map(c => c.value);
+      if (culturasSel.length === 0) {
+        msgErro.textContent = 'Selecione ao menos uma cultura explorada.';
+        msgErro.style.display = 'block'; return;
+      }
+      if (culturasSel.includes('Outros') && !document.getElementById('culturasOutros').value.trim()) {
+        msgErro.textContent = 'Descreva as outras culturas exploradas.';
+        msgErro.style.display = 'block'; return;
+      }
       if (arquivosSelecionados.length === 0) {
         msgErro.textContent = 'Selecione ao menos um arquivo.';
-        msgErro.style.display = 'block';
-        return;
+        msgErro.style.display = 'block'; return;
       }
 
-      const culturasSel = [...document.querySelectorAll('input[name="culturas"]:checked')].map(c => c.value);
       if (culturasSel.includes('Outros')) {
         culturasSel[culturasSel.indexOf('Outros')] = 'Outros: ' + document.getElementById('culturasOutros').value.trim();
       }
@@ -421,7 +360,6 @@
           inputDoc.maxLength = 18;
           arquivosSelecionados = [];
           renderLista();
-          mostrarStep(1);
           atualizarDocs('PJ');
         } else {
           msgErro.textContent = json.msg || 'Erro ao enviar.';
@@ -435,9 +373,6 @@
         btn.textContent = '+ Enviar Documentos';
       }
     });
-
-    // inicializa indicador
-    atualizarIndicador(1);
   </script>
 </body>
 </html>
