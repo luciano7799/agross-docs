@@ -164,6 +164,45 @@
             <input type="text" id="trading" name="trading" placeholder="Ex: Bunge — João Silva, (11) 91234-5678" required>
           </div>
 
+          <!-- ── Compliance e Due Diligence ───────────────────────────── -->
+          <div class="section-title">Compliance e Due Diligence</div>
+
+          <div class="form-group">
+            <label>Na última etapa de documentos, precisamos que você envie as seguintes certidões e declarações: <span class="req">*</span></label>
+            <div class="check-group check-group--1col" id="certidoesGroup">
+              <label class="check-option"><input type="checkbox" name="certidoes" value="Certidão da Receita Federal"><span class="check-label">Certidão da Receita Federal</span></label>
+              <label class="check-option"><input type="checkbox" name="certidoes" value="Certidão da PGFN"><span class="check-label">Certidão da PGFN</span></label>
+              <label class="check-option"><input type="checkbox" name="certidoes" value="Certidão negativa de dívida ativa municipal"><span class="check-label">Certidão negativa de dívida ativa municipal</span></label>
+              <label class="check-option"><input type="checkbox" name="certidoes" value="Certidão negativa de dívida ativa estadual"><span class="check-label">Certidão negativa de dívida ativa estadual</span></label>
+              <label class="check-option"><input type="checkbox" name="certidoes" value="Certidão negativa de dívida ativa federal"><span class="check-label">Certidão negativa de dívida ativa federal</span></label>
+              <label class="check-option"><input type="checkbox" name="certidoes" value="Certidão de distribuição de ações trabalhistas"><span class="check-label">Certidão de distribuição de ações trabalhistas</span></label>
+              <label class="check-option"><input type="checkbox" name="certidoes" value="Certidão de protestos"><span class="check-label">Certidão de protestos</span></label>
+              <label class="check-option"><input type="checkbox" name="certidoes" value="Certidão estadual de distribuição de processos cíveis; recuperações judiciais; e execuções judiciais"><span class="check-label">Certidão estadual de distribuição de processos cíveis; recuperações judiciais; e execuções judiciais</span></label>
+              <label class="check-option"><input type="checkbox" name="certidoes" value="Certidão federal de distribuição de processos cíveis e execuções fiscais"><span class="check-label">Certidão federal de distribuição de processos cíveis e execuções fiscais</span></label>
+              <label class="check-option"><input type="checkbox" name="certidoes" value="Declaração BACEN/Serasa"><span class="check-label">Declaração BACEN/Serasa</span></label>
+              <label class="check-option"><input type="checkbox" name="certidoes" value="Declaração de inexistência de embargos ambientais (IBAMA)"><span class="check-label">Declaração de inexistência de embargos ambientais (IBAMA)</span></label>
+              <label class="check-option"><input type="checkbox" name="certidoes" value="Declaração de Reconhecimento de Limites (DRL) - áreas indígenas"><span class="check-label">Declaração de Reconhecimento de Limites (DRL) - áreas indígenas</span></label>
+              <label class="check-option"><input type="checkbox" name="certidoes" value="Certificado de licenciamento ambiental"><span class="check-label">Certificado de licenciamento ambiental</span></label>
+            </div>
+          </div>
+
+          <!-- ── Compliance Socioambiental ─────────────────────────── -->
+          <div class="section-title">Compliance Socioambiental</div>
+
+          <div class="form-group">
+            <label>Declaro para todos os fins que a propriedade não está em área de reserva legal; que não pratiquei atos de desmatamento recentemente (últimos 03 anos); bem como não estou listado na "lista suja" do MPT - Cadastro de Empregadores que tenham submetido trabalhadores a condições análogas à escravidão. <span class="req">*</span></label>
+            <div class="radio-group radio-group--2col">
+              <label class="radio-option">
+                <input type="radio" name="declaracaoSocioambiental" value="Sim, eu declaro" required>
+                <span class="radio-label">Sim, eu declaro</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="declaracaoSocioambiental" value="Não">
+                <span class="radio-label">Não</span>
+              </label>
+            </div>
+          </div>
+
           <!-- ── Documentos & Envio ─────────────────────────────────── -->
           <div class="section-title">Documentos &amp; Envio</div>
 
@@ -385,6 +424,16 @@
         msgErro.textContent = 'Descreva as outras culturas exploradas.';
         msgErro.style.display = 'block'; return;
       }
+      const certidoesSel = [...document.querySelectorAll('input[name="certidoes"]:checked')].map(c => c.value);
+      if (certidoesSel.length === 0) {
+        msgErro.textContent = 'Selecione ao menos uma certidão/declaração.';
+        msgErro.style.display = 'block'; return;
+      }
+      if (!document.querySelector('input[name="declaracaoSocioambiental"]:checked')) {
+        msgErro.textContent = 'Responda a declaração socioambiental.';
+        msgErro.style.display = 'block'; return;
+      }
+
       if (!document.querySelector('input[name="armazem"]:checked')) {
         msgErro.textContent = 'Selecione o tipo de armazém.';
         msgErro.style.display = 'block'; return;
@@ -435,6 +484,8 @@
       }
       formData.append('garantias', garantiasSel.join(', '));
       formData.append('cooperativas', document.getElementById('cooperativas').value.trim());
+      formData.append('certidoes', certidoesSel.join(', '));
+      formData.append('declaracaoSocioambiental', document.querySelector('input[name="declaracaoSocioambiental"]:checked').value);
       formData.append('armazem', document.querySelector('input[name="armazem"]:checked').value);
       formData.append('capacidadeArmazem', document.getElementById('capacidadeArmazem').value.trim());
       formData.append('enderecosArmazem', document.getElementById('enderecosArmazem').value.trim());

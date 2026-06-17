@@ -372,6 +372,10 @@ textarea { resize: vertical; min-height: 90px; }
   font-size: 12px;
 }
 
+/* ── CHECK/RADIO GROUP OVERRIDES ───────────────────────────────── */
+.check-group--1col  { grid-template-columns: 1fr; }
+.radio-group--2col  { grid-template-columns: repeat(2, 1fr); }
+
 /* ── SECTION TITLES ─────────────────────────────────────────────── */
 .section-title {
   font-size: 11px;
