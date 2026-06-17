@@ -395,7 +395,7 @@
       const lista = imovel === 'Próprio' ? CERTIDOES_PROPRIO : CERTIDOES_TODOS;
       document.getElementById('certidoesList').innerHTML = lista.map(c => `<li>${c}</li>`).join('');
     }
-    document.querySelectorAll('input[name="imovel"]').forEach(radio => {
+    document.querySelectorAll('input[name="armazem"]').forEach(radio => {
       radio.addEventListener('change', () => atualizarCertidoes(radio.value));
     });
 
