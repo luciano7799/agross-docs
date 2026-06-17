@@ -668,34 +668,63 @@ input:-webkit-autofill:focus {
 .radio-group {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 6px;
+  gap: 8px;
+  margin-top: 8px;
 }
 
 .radio-option {
-  display: flex;
-  align-items: center;
-  gap: 7px;
+  position: relative;
   cursor: pointer;
-  font-size: 14px;
-  color: var(--text-1);
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 8px 16px;
-  transition: border-color .15s, background .15s;
-}
-
-.radio-option:has(input:checked) {
-  border-color: var(--blue);
-  background: var(--blue-dim);
+  user-select: none;
 }
 
 .radio-option input[type="radio"] {
-  accent-color: var(--blue);
-  width: 15px;
-  height: 15px;
-  cursor: pointer;
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.radio-option .radio-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-2);
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  padding: 7px 18px;
+  transition: all .18s ease;
+  letter-spacing: .01em;
+}
+
+.radio-option .radio-label::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background .18s, transform .18s;
+  flex-shrink: 0;
+}
+
+.radio-option:hover .radio-label {
+  border-color: var(--blue);
+  color: var(--text-1);
+}
+
+.radio-option input:checked + .radio-label {
+  border-color: var(--blue);
+  background: var(--blue-dim);
+  color: var(--blue);
+}
+
+.radio-option input:checked + .radio-label::before {
+  background: var(--blue);
+  transform: scale(1.3);
 }
 
 /* ── DOCUMENTOS NECESSÁRIOS ─────────────────────────────────────── */
