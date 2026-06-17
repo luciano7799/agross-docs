@@ -694,8 +694,10 @@ input:-webkit-autofill:focus {
 }
 
 .docs-list li::before {
-  content: '•';
+  content: '✓';
   position: absolute;
-  left: 4px;
-  color: var(--blue);
+  left: 2px;
+  color: #22c55e;
+  font-weight: 700;
+  font-size: 12px;
 }
