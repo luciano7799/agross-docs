@@ -795,3 +795,97 @@ input:-webkit-autofill:focus {
   font-weight: 700;
   font-size: 12px;
 }
+
+/* ── WIZARD ─────────────────────────────────────────────────────── */
+.wizard-steps {
+  display: flex;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.wstep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.wstep-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--surface-3);
+  border: 2px solid var(--border);
+  color: var(--text-3);
+  transition: all .25s;
+}
+
+.wstep-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  transition: color .25s;
+  white-space: nowrap;
+}
+
+.wstep.active .wstep-circle {
+  background: var(--green-dim);
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.wstep.active .wstep-label {
+  color: var(--text-2);
+}
+
+.wstep.current .wstep-circle {
+  background: var(--green);
+  border-color: var(--green);
+  color: #000;
+  box-shadow: 0 0 12px rgba(34,197,94,.4);
+}
+
+.wstep.current .wstep-label {
+  color: var(--green);
+}
+
+.wstep-line {
+  flex: 1;
+  height: 2px;
+  background: var(--border);
+  margin: 0 8px;
+  margin-bottom: 22px;
+  border-radius: 2px;
+  transition: background .25s;
+}
+
+.wstep-line.active {
+  background: var(--green);
+}
+
+/* Step nav buttons */
+.step-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 24px;
+  gap: 12px;
+}
+
+.step-nav .btn-primary {
+  width: auto;
+  margin-top: 0;
+  padding: 11px 24px;
+}
+
+.step-nav .btn-outline {
+  padding: 11px 18px;
+}
