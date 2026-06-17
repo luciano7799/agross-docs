@@ -7,164 +7,171 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="user-page">
-  <div class="container">
-    <header>
+
+  <header>
+    <div class="container">
       <div class="logo-area">
         <div class="logo-icon">RR</div>
         <div>
           <h1>Grupo AgRoss</h1>
+          <p>Preencha e clique em Enviar</p>
         </div>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <div class="card">
-      <h2>Envio de Documentos</h2>
-      <p class="subtitle">Preencha os dados e anexe os arquivos desejados.</p>
+  <div class="content-wrap">
+    <div class="container">
+      <div class="card">
+        <h2>Envio de Documentos</h2>
+        <p class="subtitle">Preencha os dados e anexe os arquivos necessários.</p>
 
-      <!-- Indicador de etapas -->
-      <div class="wizard-steps" id="wizardSteps">
-        <div class="wstep active" data-step="1">
-          <div class="wstep-circle">1</div>
-          <div class="wstep-label">Identificação</div>
-        </div>
-        <div class="wstep-line"></div>
-        <div class="wstep active" data-step="2">
-          <div class="wstep-circle">2</div>
-          <div class="wstep-label">Propriedade</div>
-        </div>
-        <div class="wstep-line"></div>
-        <div class="wstep" data-step="3">
-          <div class="wstep-circle">3</div>
-          <div class="wstep-label">Documentos</div>
-        </div>
-      </div>
-
-      <form id="formEnvio" novalidate>
-
-        <!-- ══ PASSO 1 — Identificação ══════════════════════════════ -->
-        <div class="step" id="step1">
-
-          <div class="form-group">
-            <label>Tipo de pessoa <span class="req">*</span></label>
-            <div class="tipo-toggle">
-              <button type="button" class="tipo-btn active" data-tipo="PJ">Pessoa Jurídica</button>
-              <button type="button" class="tipo-btn" data-tipo="PF">Pessoa Física</button>
-            </div>
-            <input type="hidden" id="tipo" name="tipo" value="PJ">
+        <!-- Indicador de etapas -->
+        <div class="wizard-steps" id="wizardSteps">
+          <div class="wstep active" data-step="1">
+            <div class="wstep-circle">1</div>
+            <div class="wstep-label">Identificação</div>
           </div>
-
-          <div class="form-group">
-            <label for="documento" id="labelDocumento">CNPJ <span class="req">*</span></label>
-            <input type="text" id="documento" name="documento" placeholder="00.000.000/0000-00" maxlength="18" required>
+          <div class="wstep-line"></div>
+          <div class="wstep" data-step="2">
+            <div class="wstep-circle">2</div>
+            <div class="wstep-label">Propriedade</div>
           </div>
-
-          <div class="form-group">
-            <label for="limiteCredito">Informe os limites de créditos bancários ativos <span class="req">*</span></label>
-            <input type="text" id="limiteCredito" name="limiteCredito" placeholder="R$ 0,00" required>
-          </div>
-
-          <div class="step-nav">
-            <span></span>
-            <button type="button" class="btn-primary btn-next" data-next="2">Próximo →</button>
+          <div class="wstep-line"></div>
+          <div class="wstep" data-step="3">
+            <div class="wstep-circle">3</div>
+            <div class="wstep-label">Documentos</div>
           </div>
         </div>
 
-        <!-- ══ PASSO 2 — Propriedade & Produção ════════════════════ -->
-        <div class="step" id="step2" style="display:none">
+        <form id="formEnvio" novalidate>
 
-          <div class="form-group">
-            <label>Imóvel <span class="req">*</span></label>
-            <div class="radio-group">
-              <label class="radio-option">
-                <input type="radio" name="imovel" value="Próprio" required>
-                <span class="radio-label">Próprio</span>
-              </label>
-              <label class="radio-option">
-                <input type="radio" name="imovel" value="Arrendado">
-                <span class="radio-label">Arrendado</span>
-              </label>
-              <label class="radio-option">
-                <input type="radio" name="imovel" value="Parceria rural">
-                <span class="radio-label">Parceria rural</span>
-              </label>
-            </div>
-          </div>
+          <!-- ══ PASSO 1 — Identificação ══════════════════════════════ -->
+          <div class="step" id="step1">
 
-          <div class="form-row">
             <div class="form-group">
-              <label for="areaUtil">Área útil do imóvel <span class="req">*</span></label>
-              <input type="text" id="areaUtil" name="areaUtil" placeholder="Ex: 150 ha" required>
+              <label>Tipo de pessoa <span class="req">*</span></label>
+              <div class="tipo-toggle">
+                <button type="button" class="tipo-btn active" data-tipo="PJ">Pessoa Jurídica</button>
+                <button type="button" class="tipo-btn" data-tipo="PF">Pessoa Física</button>
+              </div>
+              <input type="hidden" id="tipo" name="tipo" value="PJ">
             </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="documento" id="labelDocumento">CNPJ <span class="req">*</span></label>
+                <input type="text" id="documento" name="documento" placeholder="00.000.000/0000-00" maxlength="18" required>
+              </div>
+              <div class="form-group">
+                <label for="limiteCredito">Limites de crédito bancário <span class="req">*</span></label>
+                <input type="text" id="limiteCredito" name="limiteCredito" placeholder="R$ 0,00" required>
+              </div>
+            </div>
+
+            <div class="step-nav">
+              <span></span>
+              <button type="button" class="btn-primary btn-next" data-next="2">Próximo →</button>
+            </div>
+          </div>
+
+          <!-- ══ PASSO 2 — Propriedade & Produção ════════════════════ -->
+          <div class="step" id="step2" style="display:none">
+
             <div class="form-group">
-              <label for="areaPlantada">Área plantada <span class="req">*</span></label>
-              <input type="text" id="areaPlantada" name="areaPlantada" placeholder="Ex: 120 ha" required>
+              <label>Imóvel <span class="req">*</span></label>
+              <div class="radio-group">
+                <label class="radio-option">
+                  <input type="radio" name="imovel" value="Próprio" required>
+                  <span class="radio-label">Próprio</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="imovel" value="Arrendado">
+                  <span class="radio-label">Arrendado</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="imovel" value="Parceria rural">
+                  <span class="radio-label">Parceria rural</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="areaUtil">Área útil do imóvel <span class="req">*</span></label>
+                <input type="text" id="areaUtil" name="areaUtil" placeholder="Ex: 150 ha" required>
+              </div>
+              <div class="form-group">
+                <label for="areaPlantada">Área plantada <span class="req">*</span></label>
+                <input type="text" id="areaPlantada" name="areaPlantada" placeholder="Ex: 120 ha" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="estimativaSafra">Estimativa de Safra <span class="req">*</span></label>
+              <input type="text" id="estimativaSafra" name="estimativaSafra" placeholder="Ex: 500 sacas" required>
+            </div>
+
+            <div class="form-group">
+              <label>Culturas exploradas nos últimos 03 anos <span class="req">*</span></label>
+              <div class="check-group" id="culturasGroup">
+                <label class="check-option"><input type="checkbox" name="culturas" value="Soja"><span class="check-label">Soja</span></label>
+                <label class="check-option"><input type="checkbox" name="culturas" value="Cana de açúcar"><span class="check-label">Cana de açúcar</span></label>
+                <label class="check-option"><input type="checkbox" name="culturas" value="Milho"><span class="check-label">Milho</span></label>
+                <label class="check-option"><input type="checkbox" name="culturas" value="Café"><span class="check-label">Café</span></label>
+                <label class="check-option"><input type="checkbox" name="culturas" value="Arroz"><span class="check-label">Arroz</span></label>
+                <label class="check-option"><input type="checkbox" name="culturas" value="Feijão"><span class="check-label">Feijão</span></label>
+                <label class="check-option"><input type="checkbox" name="culturas" value="Trigo"><span class="check-label">Trigo</span></label>
+                <label class="check-option"><input type="checkbox" name="culturas" value="Algodão"><span class="check-label">Algodão</span></label>
+                <label class="check-option"><input type="checkbox" name="culturas" value="Tomate"><span class="check-label">Tomate</span></label>
+                <label class="check-option"><input type="checkbox" name="culturas" value="Batata"><span class="check-label">Batata</span></label>
+                <label class="check-option" id="checkOutros"><input type="checkbox" name="culturas" value="Outros" id="cbOutros"><span class="check-label">Outros</span></label>
+              </div>
+              <div id="outrosWrap" style="display:none; margin-top:10px;">
+                <input type="text" id="culturasOutros" name="culturasOutros" placeholder="Descreva as outras culturas..." maxlength="200">
+              </div>
+            </div>
+
+            <div class="step-nav">
+              <button type="button" class="btn-outline btn-back" data-back="1">← Anterior</button>
+              <button type="button" class="btn-primary btn-next" data-next="3">Próximo →</button>
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="estimativaSafra">Estimativa de Safra <span class="req">*</span></label>
-            <input type="text" id="estimativaSafra" name="estimativaSafra" placeholder="Ex: 500 sacas" required>
+          <!-- ══ PASSO 3 — Documentos & Envio ════════════════════════ -->
+          <div class="step" id="step3" style="display:none">
+
+            <div class="form-group">
+              <div class="docs-info" id="docsInfo">
+                <div class="docs-info-title">📋 Documentos necessários para envio:</div>
+                <ul class="docs-list" id="docsList"></ul>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Arquivos <span class="req">*</span></label>
+              <div class="drop-zone" id="dropZone">
+                <input type="file" id="arquivos" name="arquivos" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.txt,.zip">
+                <div class="drop-icon">📁</div>
+                <p>Arraste os arquivos aqui ou <strong>clique para selecionar</strong></p>
+                <small>PDF, Word, Excel, imagens, ZIP — até 20MB por arquivo</small>
+              </div>
+              <ul id="listaArquivos" class="file-list"></ul>
+            </div>
+
+            <div class="step-nav">
+              <button type="button" class="btn-outline btn-back" data-back="2">← Anterior</button>
+              <button type="submit" class="btn-primary" id="btnEnviar">+ Enviar Documentos</button>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label>Culturas exploradas nos últimos 03 anos <span class="req">*</span></label>
-            <div class="check-group" id="culturasGroup">
-              <label class="check-option"><input type="checkbox" name="culturas" value="Soja"><span class="check-label">Soja</span></label>
-              <label class="check-option"><input type="checkbox" name="culturas" value="Cana de açúcar"><span class="check-label">Cana de açúcar</span></label>
-              <label class="check-option"><input type="checkbox" name="culturas" value="Milho"><span class="check-label">Milho</span></label>
-              <label class="check-option"><input type="checkbox" name="culturas" value="Café"><span class="check-label">Café</span></label>
-              <label class="check-option"><input type="checkbox" name="culturas" value="Arroz"><span class="check-label">Arroz</span></label>
-              <label class="check-option"><input type="checkbox" name="culturas" value="Feijão"><span class="check-label">Feijão</span></label>
-              <label class="check-option"><input type="checkbox" name="culturas" value="Trigo"><span class="check-label">Trigo</span></label>
-              <label class="check-option"><input type="checkbox" name="culturas" value="Algodão"><span class="check-label">Algodão</span></label>
-              <label class="check-option"><input type="checkbox" name="culturas" value="Tomate"><span class="check-label">Tomate</span></label>
-              <label class="check-option"><input type="checkbox" name="culturas" value="Batata"><span class="check-label">Batata</span></label>
-              <label class="check-option" id="checkOutros"><input type="checkbox" name="culturas" value="Outros" id="cbOutros"><span class="check-label">Outros</span></label>
-            </div>
-            <div id="outrosWrap" style="display:none; margin-top:10px;">
-              <input type="text" id="culturasOutros" name="culturasOutros" placeholder="Descreva as outras culturas..." maxlength="200">
-            </div>
-          </div>
+        </form>
 
-          <div class="step-nav">
-            <button type="button" class="btn-outline btn-back" data-back="1">← Anterior</button>
-            <button type="button" class="btn-primary btn-next" data-next="3">Próximo →</button>
-          </div>
+        <div id="msgSucesso" class="alert alert-success" style="display:none">
+          ✅ Documentos enviados com sucesso! Obrigado.
         </div>
-
-        <!-- ══ PASSO 3 — Documentos & Envio ════════════════════════ -->
-        <div class="step" id="step3" style="display:none">
-
-          <div class="form-group">
-            <div class="docs-info" id="docsInfo">
-              <div class="docs-info-title">📋 Documentos necessários para envio:</div>
-              <ul class="docs-list" id="docsList"></ul>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Arquivos <span class="req">*</span></label>
-            <div class="drop-zone" id="dropZone">
-              <input type="file" id="arquivos" name="arquivos" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.txt,.zip">
-              <div class="drop-icon">📁</div>
-              <p>Arraste os arquivos aqui ou <strong>clique para selecionar</strong></p>
-              <small>PDF, Word, Excel, imagens, ZIP — até 20MB por arquivo</small>
-            </div>
-            <ul id="listaArquivos" class="file-list"></ul>
-          </div>
-
-          <div class="step-nav">
-            <button type="button" class="btn-outline btn-back" data-back="2">← Anterior</button>
-            <button type="submit" class="btn-primary" id="btnEnviar">Enviar Documentos</button>
-          </div>
-        </div>
-
-      </form>
-
-      <div id="msgSucesso" class="alert alert-success" style="display:none">
-        ✅ Documentos enviados com sucesso! Obrigado.
+        <div id="msgErro" class="alert alert-error" style="display:none"></div>
       </div>
-      <div id="msgErro" class="alert alert-error" style="display:none"></div>
     </div>
   </div>
 
@@ -425,7 +432,7 @@
         msgErro.style.display = 'block';
       } finally {
         btn.disabled = false;
-        btn.textContent = 'Enviar Documentos';
+        btn.textContent = '+ Enviar Documentos';
       }
     });
 
