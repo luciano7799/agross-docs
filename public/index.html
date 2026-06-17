@@ -33,14 +33,6 @@
           <input type="hidden" id="tipo" name="tipo" value="PJ">
         </div>
 
-        <!-- Documentos necessários -->
-        <div class="form-group">
-          <div class="docs-info" id="docsInfo">
-            <div class="docs-info-title">📋 Documentos necessários para envio:</div>
-            <ul class="docs-list" id="docsList"></ul>
-          </div>
-        </div>
-
         <!-- Documento (CNPJ ou CPF) -->
         <div class="form-group">
           <label for="documento" id="labelDocumento">CNPJ <span class="req">*</span></label>
@@ -72,10 +64,12 @@
           </div>
         </div>
 
-        <!-- Observação -->
+        <!-- Documentos necessários -->
         <div class="form-group">
-          <label for="obs">Observação</label>
-          <textarea id="obs" name="obs" rows="3" placeholder="Informações adicionais sobre os documentos..."></textarea>
+          <div class="docs-info" id="docsInfo">
+            <div class="docs-info-title">📋 Documentos necessários para envio:</div>
+            <ul class="docs-list" id="docsList"></ul>
+          </div>
         </div>
 
         <!-- Upload -->
@@ -257,7 +251,7 @@
       formData.append('cnpj', documento);
       formData.append('limiteCredito', limiteCredito);
       formData.append('imovel', imovelEl.value);
-      formData.append('obs', document.getElementById('obs').value);
+
       arquivosSelecionados.forEach(f => formData.append('arquivos', f));
 
       const btn = document.getElementById('btnEnviar');
