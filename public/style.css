@@ -663,3 +663,39 @@ input:-webkit-autofill:focus {
   font-weight: 600;
   box-shadow: 0 1px 4px rgba(0,0,0,.3);
 }
+
+/* ── DOCUMENTOS NECESSÁRIOS ─────────────────────────────────────── */
+.docs-info {
+  background: var(--blue-dim);
+  border: 1px solid rgba(96,165,250,.25);
+  border-radius: var(--r2);
+  padding: 14px 16px;
+}
+
+.docs-info-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--blue);
+  margin-bottom: 10px;
+}
+
+.docs-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.docs-list li {
+  font-size: 13px;
+  color: var(--text-2);
+  padding-left: 16px;
+  position: relative;
+}
+
+.docs-list li::before {
+  content: '•';
+  position: absolute;
+  left: 4px;
+  color: var(--blue);
+}

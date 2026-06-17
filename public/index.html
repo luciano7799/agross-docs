@@ -33,6 +33,14 @@
           <input type="hidden" id="tipo" name="tipo" value="PJ">
         </div>
 
+        <!-- Documentos necessários -->
+        <div class="form-group">
+          <div class="docs-info" id="docsInfo">
+            <div class="docs-info-title">📋 Documentos necessários para envio:</div>
+            <ul class="docs-list" id="docsList"></ul>
+          </div>
+        </div>
+
         <!-- Documento (CNPJ ou CPF) -->
         <div class="form-group">
           <label for="documento" id="labelDocumento">CNPJ <span class="req">*</span></label>
@@ -68,11 +76,44 @@
   </div>
 
   <script>
+    // ── Documentos por tipo ───────────────────────────────────────
+    const DOCS = {
+      PJ: [
+        'Contrato social consolidado',
+        'Cartão CNPJ',
+        'RG e CPF ou CNH do sócio',
+        'Comprovante de endereço do sócio',
+        'Ata de eleição, se o caso',
+        'Balanço patrimonial e DRE',
+        'Fluxo de caixa',
+        'Balancete atualizado',
+        'ECF',
+        'Endividamento bancário',
+      ],
+      PF: [
+        'RG e CPF ou CNH',
+        'Comprovante de endereço',
+        'Certidão de casamento; Ou Pacto antinupcial; Ou Declaração de união estável',
+        'Procuração, se o caso',
+        'Livro caixa produtor rural',
+        'Extratos bancários',
+        'Relação de dívidas bancárias',
+        'Endividamento rural vigente',
+      ],
+    };
+
+    function atualizarDocs(tipo) {
+      const lista = document.getElementById('docsList');
+      lista.innerHTML = DOCS[tipo].map(d => `<li>${d}</li>`).join('');
+    }
+
     // ── Tipo toggle ───────────────────────────────────────────────
     const tipoBtns = document.querySelectorAll('.tipo-btn');
     const inputTipo = document.getElementById('tipo');
     const inputDoc  = document.getElementById('documento');
     const labelDoc  = document.getElementById('labelDocumento');
+
+    atualizarDocs('PJ');
 
     tipoBtns.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -81,6 +122,7 @@
         const tipo = btn.dataset.tipo;
         inputTipo.value = tipo;
         inputDoc.value = '';
+        atualizarDocs(tipo);
         if (tipo === 'PF') {
           labelDoc.innerHTML = 'CPF <span class="req">*</span>';
           inputDoc.placeholder = '000.000.000-00';
