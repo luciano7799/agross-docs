@@ -513,11 +513,7 @@
         msgErro.textContent = 'Descreva as outras culturas exploradas.';
         msgErro.style.display = 'block'; return;
       }
-      const certidoesSel = [...document.querySelectorAll('input[name="certidoes"]:checked')].map(c => c.value);
-      if (certidoesSel.length === 0) {
-        msgErro.textContent = 'Selecione ao menos uma certidão/declaração.';
-        msgErro.style.display = 'block'; return;
-      }
+      const certidoesSel = [...document.querySelectorAll('#certidoesList li')].map(li => li.textContent.trim());
       if (!document.querySelector('input[name="declaracaoSocioambiental"]:checked')) {
         msgErro.textContent = 'Responda a declaração socioambiental.';
         msgErro.style.display = 'block'; return;
