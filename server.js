@@ -68,7 +68,10 @@ app.post('/upload', upload.array('arquivos', 10), async (req, res) => {
     const { error } = await supabase.storage.from(BUCKET).upload(storagePath, file.buffer, {
       contentType: file.mimetype
     });
-    if (error) return res.status(500).json({ ok: false, msg: 'Erro ao salvar arquivo: ' + error.message });
+    if (error) {
+      console.error('Erro upload storage:', error, error?.cause);
+      return res.status(500).json({ ok: false, msg: 'Erro ao salvar arquivo: ' + error.message });
+    }
     arquivos.push({ original: file.originalname, path: storagePath, tamanho: file.size });
   }
 
