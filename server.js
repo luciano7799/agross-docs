@@ -70,7 +70,19 @@ app.post('/upload', upload.array('arquivos', 10), async (req, res) => {
     });
     if (error) {
       console.error('Erro upload storage:', error, error?.cause);
-      return res.status(500).json({ ok: false, msg: 'Erro ao salvar arquivo: ' + error.message });
+      return res.status(500).json({
+        ok: false,
+        msg: 'Erro ao salvar arquivo: ' + error.message,
+        debug: {
+          name: error?.name,
+          cause: error?.cause ? {
+            message: error.cause.message,
+            code: error.cause.code,
+            errno: error.cause.errno,
+            stack: error.cause.stack
+          } : null
+        }
+      });
     }
     arquivos.push({ original: file.originalname, path: storagePath, tamanho: file.size });
   }
