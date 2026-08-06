@@ -52,6 +52,7 @@ function isAdmin(req) { return req.session && req.session.isAdmin; }
 
 // ── ROTAS DO USUÁRIO ──────────────────────────────────────────────
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
+app.get('/__version', (req, res) => res.json({ v: 'debug-check-3', now: Date.now() }));
 
 app.post('/upload', upload.array('arquivos', 10), async (req, res) => {
   const { tipo, cnpj, obs, limiteCredito, imovel, areaUtil, areaPlantada, estimativaSafra, culturas } = req.body;
